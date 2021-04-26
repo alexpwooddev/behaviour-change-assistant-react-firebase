@@ -1,0 +1,12 @@
+.calendar .days {
+  text-transform: uppercase;
+  font-weight: 400;
+  color: var(--mindspace-background-blue-green);
+  font-size: 70%;
+  padding: 0.75em 0;
+  border-bottom: 1px solid lightgray;
+}
+
+.calendar .days-of-week {
+   text-align: center;
+ }

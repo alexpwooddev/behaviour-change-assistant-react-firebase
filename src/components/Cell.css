@@ -1,0 +1,59 @@
+.calendar .body .cell {
+   position: relative;
+   height: 6em;
+   border-right: 1px solid lightgray;
+   overflow: hidden;
+   cursor: pointer;
+   transition: 0.25s ease-out;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+ }
+
+ .calendar .body .cell:hover {
+  background-color: var(--mindpsace-yellow);
+}
+ 
+ .calendar .body .cell:last-child {
+   border-right: none;
+ }
+ .calendar .body .cell .number {
+   position: absolute;
+   font-size: 82.5%;
+   line-height: 1;
+   top: 0.75em;
+   right: 0.75em;
+   font-weight: 700;
+ }
+
+ .calendar .body .cell .bg {
+   font-weight: 700;
+   line-height: 1;
+   color: #1affa0;
+   opacity: 0;
+   font-size: 2em;
+   position: absolute;
+   top: -0.2em;
+   right: -0.05em;
+   transition: 0.25s ease-out;
+   letter-spacing: -0.07em;
+ }
+ .calendar .body .cell:hover .bg,
+ .calendar .body .selected .bg {
+   opacity: 0.2;
+   transition: 0.5s ease-in;
+ }
+
+ img {
+   height: 28px;
+ }
+
+ .future-cell {
+   /* pointer-events: none; */
+   color: lightgray;
+ }
+
+ .disabled {
+   pointer-events: none;
+   color: lightgray;
+ }

@@ -1,0 +1,37 @@
+.goalText {
+   font-weight: bold;
+}
+
+.goal-card {
+   box-shadow: 0 4px 8px 0 var(--grey);
+   color: var(--white);
+   margin: 0.5rem;
+   padding: .5rem;
+   border-radius: 10px;
+   max-width: 57.5vw;
+   word-break: break-word;
+   overflow: hidden;
+}
+
+@media only screen and (min-width: 769px) {
+   .goal-card {
+      max-width: 17vw;
+   }
+}
+
+.goal-card:hover {
+   color: var(--mindpsace-background-blue-green-lighter);
+   cursor: pointer;
+}
+.goal-card:active {
+   transform: translateY(2px);
+}
+
+.goal-card button {
+   font-size: .8rem;
+}
+
+.goal-card p, h3 {
+   margin-top: 5px;
+   margin-bottom: 5px;
+}

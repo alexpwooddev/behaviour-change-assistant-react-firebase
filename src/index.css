@@ -1,0 +1,52 @@
+@import url(https://fonts.googleapis.com/css?family=Caudex);
+
+:root {
+   --white: #fff;
+   --grey: #cccccc;
+   --purple: #9b59b6;
+   --light-purple: #a57cb6;
+   --orange: #ffa45e;
+   --dark-orange: #f67009;
+   --mindspace-background-blue-green: #486472;
+   --mindpsace-background-blue-green-lighter: #426a7e;
+   --mindpsace-yellow: #f5e09f;
+   --mindpsace-yellow-lighter: #eee4c5;
+   --tomate-red: #f1433f;
+   --green-yellow: #a9cf54;
+   --gradient-red: #fc6042;
+   --gradient-orange: #fcb941;
+   --gradient-yellow: #eee657;
+   --gradient-green: #2cc990;
+ }
+ 
+ html {
+   box-sizing: border-box;
+   font-size: 16px;
+ }
+ 
+ *,
+ *:before,
+ *:after {
+   box-sizing: inherit;
+ }
+ 
+ body {
+   font-family: caudex, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+   font-size: 0.84em;
+   font-weight: 300;
+   line-height: 1.5;
+   position: relative;
+   margin: 0;
+ }
+
+.app {
+  margin: 0;
+}
+
+
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}

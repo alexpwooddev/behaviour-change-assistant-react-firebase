@@ -1,0 +1,119 @@
+ header {
+   margin: 0;
+   padding: 0;
+   top: 0;
+   /* margin-bottom: 20px; */
+   box-shadow: 0 4px 6px 0 var(--grey);
+   display: flex;
+   justify-content: center;
+   align-items: center; 
+   background-color: var(--mindspace-background-blue-green);
+}
+
+header h1 {
+   color: var(--white);
+}
+
+ .main-wrapper {
+   margin-left: 5vw;
+   margin-right: 5vw;
+   margin-top: 15px;
+   display: grid;
+   gap: 10px;
+   grid-template-areas:
+   "goals progressBar"
+   "storageWarning storageWarning"
+   "calendar calendar"
+   "footer footer";
+   grid-template-columns: 1fr 0.1fr;
+ }
+
+@media only screen and (min-width: 769px) {
+   .main-wrapper {
+       grid-template-areas: 
+       "goals calendar progressBar"
+       ". storageWarning ."
+       ". footer .";
+       grid-template-columns: 1fr 1fr .6fr;
+       margin-top: 20px;
+       gap: 7px;
+   }
+}
+
+main > p {
+   text-align: center;
+   font-weight: 600;
+   color: var(--mindspace-background-blue-green);
+}
+
+.goals-col {
+   grid-area: goals;
+}
+
+
+.calendar-col {
+   grid-area: calendar;
+}
+
+.progress-col {
+   display: flex;
+   flex-flow: column;
+   grid-area: progressBar;
+   color: var(--mindspace-background-blue-green);
+   align-items: center;
+   justify-content: flex-start;
+}
+
+.storage-warning {
+   grid-area: storageWarning;
+}
+
+footer {
+  text-align: center;
+  grid-area: footer;
+}
+
+footer a,
+footer a:link {
+  text-decoration: none;
+}
+
+button:hover { cursor: pointer; }
+button:focus { outline: none; }
+
+.btn-primary {
+    border-radius: 4px;
+    border: none;
+    background-color: var(--mindpsace-yellow);
+    color: var(--mindspace-background-blue-green);
+    padding: 5px;
+    
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background-color: var(--mindpsace-yellow-lighter);
+    color: var(--mindspace-background-blue-green);
+    box-shadow: 0 0 0 0 rgba(0,123,255,.5);
+}
+.btn-primary:not(:disabled):not(.disabled):active{
+    transform: translateY(2px);
+    color: var(--mindspace-background-blue-green);
+    background-color: var(--mindpsace-yellow);
+    border-color: var(--mindspace-background-blue-green);
+}
+.btn-primary:not(:disabled):not(.disabled):active:focus {
+    box-shadow: 0 0 0 0 rgba(0,123,255,.5);
+}
+
+.btn-primary.positive {
+   background-color: var(--mindspace-background-blue-green);
+   color: white;
+   border: 1px solid var(--mindpsace-yellow);
+}
+
+.btn-primary.positive:hover,
+.btn-primary.positive:focus {
+    background-color: #7f99a7;
+    box-shadow: 0 0 0 0 rgba(0,123,255,.5);
+}

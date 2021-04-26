@@ -1,0 +1,8 @@
+
+.calendar .body .row {
+   border-bottom: 1px solid lightgray;
+ }
+ .calendar .body .row:last-child {
+   border-bottom: none;
+ }
+ 

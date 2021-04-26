@@ -1,0 +1,55 @@
+@import url(https://fonts.googleapis.com/icon?family=Material+Icons);
+
+.icon {
+  font-family: "Material Icons";
+  font-style: normal;
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "liga";
+}
+
+.row {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+}
+.row-middle {
+  align-items: center;
+}
+.column {
+  flex-grow: 1;
+  flex-basis: 0;
+  max-width: 100%;
+}
+
+.calendar {
+  position: relative;
+  overflow: hidden;
+  font-size: 14px;
+  box-shadow: 0px 2px 4px var(--grey);
+  border-radius: 10px;
+}
+
+@media only screen and (min-width: 769px) {
+  .calendar {
+      width: 60vw;
+  }
+}
+
+.calendar .body .column {
+  flex-grow: 0;
+  flex-basis: calc(100% / 7);
+  width: calc(100% / 7);
+}
