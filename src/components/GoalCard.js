@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import "./GoalCard.css";
+import DeleteModal from "./DeleteModal";
 
 const GoalCard = (props) => {
+  const [showDeleteModal, toggleDeleteModal] = useState(false);
+  
   const deleteGoal = (e) => {
     e.stopPropagation();
-    let goalTitleToRemove = e.target.closest("div").dataset["goal"];
+    
+    hideOrShowDeleteModal();
+    let goalTitleToRemove = props.goal[0];
     let newGoalsArray = Array.from(props.goals);
     newGoalsArray.splice(newGoalsArray.findIndex(goalArr => goalArr[0].toLowerCase() === goalTitleToRemove.toLowerCase()), 1);
 
@@ -14,20 +19,55 @@ const GoalCard = (props) => {
     props.handleGoalDeletion(newGoalsArray, newStickersArray);
   };
 
+  const hideOrShowDeleteModal = () => {
+    toggleDeleteModal(!showDeleteModal);
+  }
+
+  function ucfirst(str) {
+    var firstLetter = str.substr(0, 1);
+    return firstLetter.toUpperCase() + str.substr(1);
+}
+
+  const goalDays = props.goal[1].map(day => {
+    return ucfirst(day);
+  });
+
+  let className = "goal-card";
+
+  if (props.selectedGoal === props.goal[0]) {
+    className += ' goal-card-active';
+  }
+
   return (
-    <div
+    <React.Fragment>
+      <div
       data-goal={props.goal[0]}
-      className="goal-card"
+      className={className}
       style={{ backgroundColor: `${props.goal[2]}` }}
       onClick={() => props.handleSelectedGoalChange(props.goal[0])}
-    >
+      >
 
-        <p>I commit to: <span className="goalText">{props.goal[0]}</span></p>
-  
-      <button type="button" className="btn-primary" onClick={(e) => deleteGoal(e)}>
-        Delete Goal
-      </button>
-    </div>
+          <p>I, {props.goal[3]}, commit to <span className="goalText">{props.goal[0]}</span> this month on:</p><hr /> <p>{goalDays.join(', ')}.</p>
+    
+        <button 
+          type="button" 
+          className="btn-primary" 
+          onClick={hideOrShowDeleteModal}
+          // onClick = {(e) => {deleteGoal(e)}}
+          >
+          Delete Goal
+        </button>
+      </div>
+      {showDeleteModal && (
+          <DeleteModal 
+            title="Delete"
+            message="Are you sure you want to delete this goal?"
+            deleteGoal={deleteGoal} 
+            hideOrShowDeleteModal={hideOrShowDeleteModal} 
+            />
+        )}
+    </React.Fragment>
+    
   );
 };
 

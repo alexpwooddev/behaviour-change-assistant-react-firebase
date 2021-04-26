@@ -14,11 +14,6 @@ function App() {
   const [goals, setGoals] = useState(dataHelper.readGoalsFromLocal('goalsRecord'));
   const [stickers, setStickers] = useState(dataHelper.readStickersFromLocal('stickersAndDatesRecord'));
 
-
-  //[{year: 2021, month: 2, date: 4, sticker: "monkey", goal: "asd", isOnGoalDay: false}]
-
-
-  console.log({goals});
   let initialGoalsState;
   if (goals.length > 0){
     initialGoalsState = goals[0][0];
@@ -62,6 +57,21 @@ function App() {
   };
 
   const addNewGoal = (goal) => {
+    const goalDuplicate = goals.filter(goalRecord => goalRecord[0] === goal[0]);
+    if (goalDuplicate.length > 0) {
+       //pop modal here
+      return;
+    }
+
+    goals.forEach(goalRecord => {
+      console.log(goalRecord[0]);
+      console.log(goal[0]);
+      if (goalRecord[0] === goal[0]) {
+        console.log('returning early');
+        return;
+      }
+    }) 
+    
     let newGoalsArray = Array.from(goals);
     newGoalsArray.push(goal);
     setGoals(newGoalsArray);
@@ -102,12 +112,7 @@ function App() {
       };
     }
 
-    console.log({goals});
-    //[["dk",["monday"],"#4FE899"]]
-
     let goalDays;
-    console.log(goals.length > 0);
-    console.log({selectedGoal});
     if (goals.length > 0 && selectedGoal !== "") {
       goalDays = goals.filter(
         (recordArr) => recordArr[0] === selectedGoal
@@ -115,8 +120,6 @@ function App() {
     } else {
       goalDays = [];
     }
-    
-    console.log({goalDays});
 
     const currentYear = selectedMonth.getFullYear();
     const currentMonth = selectedMonth.getMonth();

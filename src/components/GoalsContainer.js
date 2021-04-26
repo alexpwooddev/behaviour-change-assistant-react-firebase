@@ -36,6 +36,7 @@ const GoalsContainer = (props) => {
             stickers={props.stickers}
             handleSelectedGoalChange={props.handleSelectedGoalChange}
             handleGoalDeletion={props.handleGoalDeletion}
+            selectedGoal={props.selectedGoal}
           />
         );
       })}

@@ -13,6 +13,10 @@
    overflow: hidden;
 }
 
+.goal-card-active {
+   transform: scale(1.04);
+}
+
 @media only screen and (min-width: 769px) {
    .goal-card {
       max-width: 17vw;
@@ -34,4 +38,10 @@
 .goal-card p, h3 {
    margin-top: 5px;
    margin-bottom: 5px;
+}
+
+hr {
+   border: 1px solid var(--mindpsace-yellow);
+   border-radius: 5px;
+
 }

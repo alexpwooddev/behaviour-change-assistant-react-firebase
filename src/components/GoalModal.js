@@ -54,7 +54,7 @@ const GoalModal = (props) => {
       }
     });
     let goalDays = goalDaysIndexes.map((index) => dayToIndexMapper[index]);
-    let newGoal = [goalInput, goalDays, colourInput];
+    let newGoal = [goalInput, goalDays, colourInput, nameInput];
 
     props.addNewGoal(newGoal);
     props.hideOrShowGoalModal();
