@@ -50,6 +50,18 @@
       padding: 0 1rem 1rem 1rem;
     }
 
+    .goal-modal .days-wrapper {
+      columns: 2;
+    }
+
+    .goal-modal .days-instruction {
+      margin-bottom: 0.1rem;
+    }
+
+    .goal-modal .days-wrapper div {
+      text-align: left;
+    }
+
     .goal-modal .modal-buttons {
       display: flex;
       justify-content: space-evenly;

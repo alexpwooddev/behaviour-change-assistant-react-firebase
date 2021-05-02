@@ -112,84 +112,86 @@ const GoalModal = (props) => {
                   required
                 />
               </p>
-              <p>I will do this on:</p>
-              <div>
-                <input
-                  type="checkbox"
-                  id="monday"
-                  name="goalDaysIndexes[]"
-                  value="monday"
-                  checked={checkedDays[0]}
-                  onChange={() => changeCheckedDays(0)}
-                />
-                <label htmlFor="monday">Monday</label>
-              </div>
-              <div>
-                <input
-                  type="checkbox"
-                  id="tuesday"
-                  name="goalDaysIndexes[]"
-                  value="tuesday"
-                  checked={checkedDays[1]}
-                  onChange={() => changeCheckedDays(1)}
-                />
-                <label htmlFor="tuesday">Tuesday</label>
-              </div>
-              <div>
-                <input
-                  type="checkbox"
-                  id="wednesday"
-                  name="goalDaysIndexes[]"
-                  value="wednesday"
-                  checked={checkedDays[2]}
-                  onChange={() => changeCheckedDays(2)}
-                />
-                <label htmlFor="wednesday">Wednesday</label>
-              </div>
-              <div>
-                <input
-                  type="checkbox"
-                  id="thursday"
-                  name="goalDaysIndexes[]"
-                  value="thursday"
-                  checked={checkedDays[3]}
-                  onChange={() => changeCheckedDays(3)}
-                />
-                <label htmlFor="thursday">Thursday</label>
-              </div>
-              <div>
-                <input
-                  type="checkbox"
-                  id="friday"
-                  name="goalDaysIndexes[]"
-                  value="friday"
-                  checked={checkedDays[4]}
-                  onChange={() => changeCheckedDays(4)}
-                />
-                <label htmlFor="friday">Friday</label>
-              </div>
-              <div>
-                <input
-                  type="checkbox"
-                  id="saturday"
-                  name="goalDaysIndexes[]"
-                  value="saturday"
-                  checked={checkedDays[5]}
-                  onChange={() => changeCheckedDays(5)}
-                />
-                <label htmlFor="saturday">Saturday</label>
-              </div>
-              <div>
-                <input
-                  type="checkbox"
-                  id="sunday"
-                  name="goalDaysIndexes[]"
-                  value="sunday"
-                  checked={checkedDays[6]}
-                  onChange={() => changeCheckedDays(6)}
-                />
-                <label htmlFor="sunday">Sunday</label>
-              </div>
+              <p className="days-instruction">I will do this on:</p>
+              <div className="days-wrapper">
+                <div>
+                  <input
+                    type="checkbox"
+                    id="monday"
+                    name="goalDaysIndexes[]"
+                    value="monday"
+                    checked={checkedDays[0]}
+                    onChange={() => changeCheckedDays(0)}
+                  />
+                  <label htmlFor="monday">Monday</label>
+                </div>
+                <div>
+                  <input
+                    type="checkbox"
+                    id="tuesday"
+                    name="goalDaysIndexes[]"
+                    value="tuesday"
+                    checked={checkedDays[1]}
+                    onChange={() => changeCheckedDays(1)}
+                  />
+                  <label htmlFor="tuesday">Tuesday</label>
+                </div>
+                <div>
+                  <input
+                    type="checkbox"
+                    id="wednesday"
+                    name="goalDaysIndexes[]"
+                    value="wednesday"
+                    checked={checkedDays[2]}
+                    onChange={() => changeCheckedDays(2)}
+                  />
+                  <label htmlFor="wednesday">Wednesday</label>
+                </div>
+                <div>
+                  <input
+                    type="checkbox"
+                    id="thursday"
+                    name="goalDaysIndexes[]"
+                    value="thursday"
+                    checked={checkedDays[3]}
+                    onChange={() => changeCheckedDays(3)}
+                  />
+                  <label htmlFor="thursday">Thursday</label>
+                </div>
+                <div>
+                  <input
+                    type="checkbox"
+                    id="friday"
+                    name="goalDaysIndexes[]"
+                    value="friday"
+                    checked={checkedDays[4]}
+                    onChange={() => changeCheckedDays(4)}
+                  />
+                  <label htmlFor="friday">Friday</label>
+                </div>
+                <div>
+                  <input
+                    type="checkbox"
+                    id="saturday"
+                    name="goalDaysIndexes[]"
+                    value="saturday"
+                    checked={checkedDays[5]}
+                    onChange={() => changeCheckedDays(5)}
+                  />
+                  <label htmlFor="saturday">Saturday</label>
+                </div>
+                <div>
+                  <input
+                    type="checkbox"
+                    id="sunday"
+                    name="goalDaysIndexes[]"
+                    value="sunday"
+                    checked={checkedDays[6]}
+                    onChange={() => changeCheckedDays(6)}
+                  />
+                  <label htmlFor="sunday">Sunday</label>
+                </div>
+              </div>            
             </fieldset>
             <div className="modal-buttons">
               <input

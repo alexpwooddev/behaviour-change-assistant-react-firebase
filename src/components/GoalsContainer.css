@@ -2,10 +2,11 @@
    display: flex;
    flex-flow: column;
    justify-content: flex-start;
+   align-items: center;
    text-align: center;
    color: var(--mindspace-background-blue-green);
    box-shadow: 0px 2px 4px var(--grey);
-  border-radius: 10px;
+   border-radius: 10px;
 }
 
 .sticker-selector, .goal-selector {
