@@ -3,7 +3,7 @@ import { isSameMonth } from "date-fns";
 import { createStickerRecord } from "../Factories/createStickerRecord.js";
 import Sticker from "./Sticker";
 import AchievementModal from "./AchievementModal";
-import FutureErrorModal from "./FutureErrorModal";
+import GeneralModal from "./GeneralModal";
 import "./Cell.css";
 
 const Cell = (props) => {
@@ -170,11 +170,10 @@ const Cell = (props) => {
         />
       )}
       {showFutureErrorModal && (
-        <FutureErrorModal 
+        <GeneralModal 
           title="Time Travel Unavailable"
           message="Love the enthusiasm, but remember you're tracking completed actions, not intentions, so you can only add stickers to today or past days."
-          showFutureErrorModal={showFutureErrorModal}
-          hideOrShowFutureErrorModal={hideOrShowFutureErrorModal}      
+          hideOrShowModal={hideOrShowFutureErrorModal}      
         />
       )}
     </div>

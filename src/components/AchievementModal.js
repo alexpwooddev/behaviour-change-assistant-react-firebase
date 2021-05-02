@@ -1,9 +1,10 @@
 import React from "react";
+import "./AchievementModal.css";
 
 const AchievementModal = (props) => {
   if(props.showAchievementModal) {
     return (
-      <div className="modal">
+      <div className="modal achievement-modal">
         <div className="modal-content">
         <div className="modal-header">
           <h5 className="modal-title">New Achievement!</h5>

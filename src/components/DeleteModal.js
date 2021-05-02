@@ -3,7 +3,7 @@ import "./DeleteModal.css";
 
 const DeleteModal = (props) => {
     return (
-      <div className="modal">
+      <div className="modal delete-modal">
         <div className="modal-content">
         <div className="modal-header">
           <h5 className="modal-title">{props.title}</h5>

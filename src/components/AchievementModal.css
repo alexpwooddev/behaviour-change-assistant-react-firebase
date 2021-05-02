@@ -1,4 +1,4 @@
-.modal {
+.modal.achievement-modal {
    z-index: 2;
    position: fixed;
    top: 0;
@@ -11,18 +11,54 @@
    align-items: center;
 }
 
-.modal-content {
-   width: 400px;
-   max-width: 75vw;
-   max-height: calc(100vh - 1rem);
-   background: var(--white);
-   border-radius: 5px;
-   padding: 5px;
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   flex-direction: column;
-}
+      .achievement-modal .modal-content {
+         width: 400px;
+         max-width: 75vw;
+         max-height: calc(100vh - 1rem);
+         background: var(--white);
+         border-radius: 5px;
+         padding: 5px;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         flex-direction: column;
+      }
+
+      .achievement-modal .modal-header {
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         padding: 1rem 1rem;
+         width: 100%;
+         border-bottom: 1px solid #dee2e6;
+         border-top-left-radius: 0.3rem;
+         border-top-right-radius: 0.3rem;
+      }
+      .achievement-modal .modal-title {
+         margin-bottom: 0;
+         line-height: 1.5;
+      }
+
+      .achievement-modal .modal-body fieldset {
+         border: none;
+      }
+
+      .achievement-modal .modal-body {
+         position: relative;
+      flex: 1 1 auto;
+      padding: 1rem;
+      }
+
+      .achievement-modal .modal-footer {
+         display: flex;
+         flex-flow: row wrap;
+         justify-content: space-around;
+         width: 100%;
+         padding: 1rem;
+      border-top: 1px solid #dee2e6;
+      border-bottom-right-radius: 0.3rem;
+      border-bottom-left-radius: 0.3rem;
+      }
 
 .hideModal {
    z-index: -1;
@@ -53,60 +89,4 @@
    }
 }
 
-.modal-header {
-   display: flex;
-   align-items: center;
-   justify-content: center;
-   padding: 1rem 1rem;
-   width: 100%;
- border-bottom: 1px solid #dee2e6;
- border-top-left-radius: 0.3rem;
- border-top-right-radius: 0.3rem;
-}
-.modal-title {
-   margin-bottom: 0;
-   line-height: 1.5;
- }
 
-.modal-body fieldset {
-   border: none;
-}
-
-.modal-body {
-   position: relative;
- flex: 1 1 auto;
- padding: 1rem;
-}
-
-.modal-footer {
-   display: flex;
-   flex-flow: row wrap;
-   justify-content: space-around;
-   width: 100%;
-   padding: 1rem;
- border-top: 1px solid #dee2e6;
- border-bottom-right-radius: 0.3rem;
- border-bottom-left-radius: 0.3rem;
-}
-
-#promise-div input {
-   padding-left: 2px;
-   padding-right: 2px;
-   margin-left: 2px;
-   margin-right: 2px;
-}
-
-.modal h5 {
-   font-weight: 700;
-   font-size: 1.2rem;
-   
-}
-
-.modal p {
-   font-size: 1rem;
-}
-
-.modal label {
-   margin-top: 1rem;
-   margin-bottom: 1rem;
-}

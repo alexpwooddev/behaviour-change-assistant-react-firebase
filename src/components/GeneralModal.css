@@ -58,11 +58,11 @@ div.modal {
    display: flex;
    align-items: center;
    justify-content: center;
-   padding: 1rem 1rem;
+   padding: 0.5rem 1rem;
    width: 100%;
- border-bottom: 1px solid #dee2e6;
- border-top-left-radius: 0.3rem;
- border-top-right-radius: 0.3rem;
+   border-bottom: 1px solid #dee2e6;
+   border-top-left-radius: 0.3rem;
+   border-top-right-radius: 0.3rem;
 }
 .modal-title {
    margin-bottom: 0;
@@ -75,8 +75,8 @@ div.modal {
 
 .modal-body {
    position: relative;
- flex: 1 1 auto;
- padding: 1rem;
+   flex: 1 1 auto;
+   padding: 0 1rem 1rem 1rem;
 }
 
 .modal-footer {
