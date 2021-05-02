@@ -14,7 +14,7 @@ const GeneralModal = (props) => {
             id="modal-close-button"
             type="button"
             className="btn btn-secondary"
-            onClick={props.hideOrShowGeneralModal}
+            onClick={props.hideOrShowModal}
           >
             Close
           </button>

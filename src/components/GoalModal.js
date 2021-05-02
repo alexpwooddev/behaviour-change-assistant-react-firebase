@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./GoalModal.css";
-import CheckedDaysModal from "./CheckedDaysModal";
+import GeneralModal from "./GeneralModal";
 
 const GoalModal = (props) => {
   const [showCheckedDaysModal, toggleCheckedDaysModal] = useState(false)
@@ -211,10 +211,10 @@ const GoalModal = (props) => {
         </div>
       </div>
       {showCheckedDaysModal && (
-        <CheckedDaysModal 
+        <GeneralModal 
           title="You Might be Forgetting Something"
           message="Remember to set the day/s on which you aim to do the activities to complete your goal."
-          hideOrShowCheckedDaysModal={hideOrShowCheckedDaysModal}
+          hideOrShowModal={hideOrShowCheckedDaysModal}
         />
       )}
     </div>

@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { addMonths, subMonths } from "date-fns";
+
 import Calendar from "./components/Calendar";
 import GoalsContainer from "./components/GoalsContainer";
 import Header from "./components/Header";
 import ProgressBar from "./components/ProgressBar";
 import Footer from "./components/Footer";
 import StorageWarning from "./components/StorageWarning";
+import GeneralModal from "./components/GeneralModal";
+
 import "./App.css";
 import * as dataHelper from './dataHelper.js';
 
@@ -13,6 +16,9 @@ import * as dataHelper from './dataHelper.js';
 function App() {
   const [goals, setGoals] = useState(dataHelper.readGoalsFromLocal('goalsRecord'));
   const [stickers, setStickers] = useState(dataHelper.readStickersFromLocal('stickersAndDatesRecord'));
+  const [showGoalDuplicateModal, toggleGoalDuplicateModal] = useState(false);
+  const [showNoGoalsModal, toggleNoGoalsModal] = useState(false);
+  const [selectedSticker, setSelectedSticker] = useState("monkey");
 
   let initialGoalsState;
   if (goals.length > 0){
@@ -21,9 +27,10 @@ function App() {
     initialGoalsState = ""
   }
 
-  const [selectedSticker, setSelectedSticker] = useState("monkey");
   const [selectedGoal, setSelectedGoal] = useState(initialGoalsState);
   const [selectedMonth, setSelectedMonth] = useState(new Date());
+
+  
 
   useEffect(() => {
     dataHelper.createToLocalStorage('goalsRecord', goals);
@@ -32,6 +39,14 @@ function App() {
   useEffect(() => {
     dataHelper.createToLocalStorage('stickersAndDatesRecord', stickers);
   }, [stickers]);
+
+  const hideOrShowGoalDuplicateModal = () => {
+    toggleGoalDuplicateModal(!showGoalDuplicateModal);
+  };
+
+  const hideOrShowNoGoalsModal = () => {
+    toggleNoGoalsModal(!showNoGoalsModal);
+  };
 
   const nextMonth = () => {
     setSelectedMonth(addMonths(selectedMonth, 1));
@@ -59,18 +74,9 @@ function App() {
   const addNewGoal = (goal) => {
     const goalDuplicate = goals.filter(goalRecord => goalRecord[0] === goal[0]);
     if (goalDuplicate.length > 0) {
-       //pop modal here
+      hideOrShowGoalDuplicateModal();
       return;
     }
-
-    goals.forEach(goalRecord => {
-      console.log(goalRecord[0]);
-      console.log(goal[0]);
-      if (goalRecord[0] === goal[0]) {
-        console.log('returning early');
-        return;
-      }
-    }) 
     
     let newGoalsArray = Array.from(goals);
     newGoalsArray.push(goal);
@@ -90,7 +96,14 @@ function App() {
     setSelectedSticker(sticker);
   };
 
-  const modifyStickers = (stickersArray) => {
+  const noGoalsExist = goals.length > 0 ? false : true;
+
+  const modifyStickers = (stickersArray) => {  
+    if (noGoalsExist) {
+      hideOrShowNoGoalsModal();
+      return;
+    }
+    
     setStickers(stickersArray);
   };
 
@@ -201,6 +214,20 @@ function App() {
         <ProgressBar percentAchieved={percentAchieved} />
         <StorageWarning />
         <Footer />
+        {showGoalDuplicateModal && (
+          <GeneralModal
+            title="No copies allowed!"
+            message="You can't create the same goal twice."
+            hideOrShowModal={hideOrShowGoalDuplicateModal}
+          />
+        )}
+        {showNoGoalsModal && (
+          <GeneralModal 
+            title="Start with a new goal"
+            message="You need to create a goal before using the calendar and adding stickers."
+            hideOrShowModal={hideOrShowNoGoalsModal}
+          />
+        )}
       </div>
     </div>
   );

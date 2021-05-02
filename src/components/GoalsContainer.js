@@ -8,16 +8,16 @@ import GeneralModal from "./GeneralModal";
 
 const GoalsContainer = (props) => {
   const [showGoalModal, toggleGoalModal] = useState(false);
-  const [showGeneralModal, toggleGeneralModal] = useState(false);
+  const [showGoalsLimitModal, toggleShowGoalsLimitModal] = useState(false);
   const goals = props.goals;
 
-  const hideOrShowGeneralModal = () => {
-    toggleGeneralModal(!showGeneralModal);
-  }
+  const hideOrShowGoalsLimitModal = () => {
+    toggleShowGoalsLimitModal(!showGoalsLimitModal);
+  };
 
   const hideOrShowGoalModal = () => {
     if (goals.length === 3){
-      toggleGeneralModal(!showGeneralModal);
+      hideOrShowGoalsLimitModal();
       return;
     } else{
       toggleGoalModal(!showGoalModal);
@@ -56,11 +56,11 @@ const GoalsContainer = (props) => {
           goals={props.goals}
         />
       )}
-      {showGeneralModal && (
+      {showGoalsLimitModal && (
         <GeneralModal 
           title="Remember, Less is More" 
           message="Prioritising what we want to change increases our chances of success, so this assistant allows up to 3 goals at a time."
-          hideOrShowGeneralModal={hideOrShowGeneralModal} />
+          hideOrShowModal={hideOrShowGoalsLimitModal} />
       )}
     </div>
   );
