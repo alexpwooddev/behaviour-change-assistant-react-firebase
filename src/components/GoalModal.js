@@ -96,7 +96,7 @@ const GoalModal = (props) => {
                   required
                 />
                 <br />
-                <span className="input-instruction behaviour-instruction">(desired behaviour in up to 5 or 6 words)</span>
+                <span className="input-instruction behaviour-instruction">(desired behaviour - max 50 characters)</span>
               </p>
               </div>
               <p>
