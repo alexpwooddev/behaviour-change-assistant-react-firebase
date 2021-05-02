@@ -61,7 +61,7 @@ const GoalModal = (props) => {
   };
 
   return (
-    <div id="goal-modal" className="modal">
+    <div className="modal goal-modal">
       <div className="modal-content">
         <div className="modal-header">
           <h5 className="modal-title">Add New Goal</h5>

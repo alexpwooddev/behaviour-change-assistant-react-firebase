@@ -7,7 +7,7 @@ const StickerSelector = (props) => {
 
   return (
     <div className="sticker-selector">
-      <h3><label htmlFor="stickers">Choose a sticker:</label></h3>
+      <h3><label htmlFor="stickers">Choose a sticker to mark completed goals:</label></h3>
       <select
         name="stickers"
         id="stickers"

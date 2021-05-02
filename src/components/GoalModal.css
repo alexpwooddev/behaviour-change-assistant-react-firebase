@@ -24,6 +24,18 @@
   flex-direction: column;
 }
 
+/* .goals-col .modal-content {
+  height: 50%;
+  overflow: scroll;
+}
+
+@media only screen and (min-width: 769px) {
+  .goals-col .modal-content {
+    height: 100%;
+  }
+} */
+
+
 .hideModal {
   z-index: -1;
   opacity: 0;
