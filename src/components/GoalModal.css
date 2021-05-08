@@ -53,8 +53,7 @@
 
     .goal-modal .days-wrapper {
       columns: 2;
-      margin-left: 0.2rem;
-      margin-right: 0.2rem;
+      font-size: .6rem;
     }
 
     .goal-modal .days-instruction {
@@ -88,7 +87,7 @@
     }
 
     .goal-modal .input-instruction {
-      font-size: 0.7em;
+      font-size: 0.6rem;
     }
 
     .goal-modal #promise-container p:first-of-type {
