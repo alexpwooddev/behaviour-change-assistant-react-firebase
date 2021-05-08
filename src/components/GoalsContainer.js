@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+
 import HeaderAndButton from "./HeaderAndButton";
 import "./GoalsContainer.css";
 import StickerSelector from "./StickerSelector";

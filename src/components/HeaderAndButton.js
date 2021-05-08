@@ -1,13 +1,14 @@
 import React from 'react';
+import { Text } from '../containers/Language';
 
 const HeaderAndButton = (props) => {
   return (
     <div>
       <span>
-        <h2>Monthly Goals</h2>
+        <h2><Text tid="goalsContainerHeader"/></h2>
       </span>
       <button type="button" className="btn-primary positive" id="toggle-goal-modal" onClick={props.hideOrShowGoalModal}>
-        Add New Goal
+        <Text tid="addGoalButton"/>
       </button>
     </div>
   );

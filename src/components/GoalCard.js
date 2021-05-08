@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { Text } from '../containers/Language';
 import "./GoalCard.css";
 import DeleteModal from "./DeleteModal";
+
 
 const GoalCard = (props) => {
   const [showDeleteModal, toggleDeleteModal] = useState(false);
@@ -55,7 +57,7 @@ const GoalCard = (props) => {
           onClick={hideOrShowDeleteModal}
           // onClick = {(e) => {deleteGoal(e)}}
           >
-          Delete Goal
+          <Text tid="deleteGoalButton"/>
         </button>
       </div>
       {showDeleteModal && (

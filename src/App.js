@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import { addMonths, subMonths } from "date-fns";
 
 import Calendar from "./components/Calendar";
+import Footer from "./components/Footer";
+import GeneralModal from "./components/GeneralModal";
 import GoalsContainer from "./components/GoalsContainer";
 import Header from "./components/Header";
+import { LanguageProvider } from './containers/Language';
+import LanguageSelector from './components/LanguageSelector';
 import ProgressBar from "./components/ProgressBar";
-import Footer from "./components/Footer";
 import StorageWarning from "./components/StorageWarning";
-import GeneralModal from "./components/GeneralModal";
 
 import "./App.css";
 import * as dataHelper from './dataHelper.js';
@@ -185,51 +187,54 @@ function App() {
     : 0;
 
   return (
-    <div className="App">
-      <Header />
-      <div className="main-wrapper">
-        <GoalsContainer
-          goals={goals}
-          addNewGoal={addNewGoal}
-          stickers={stickers}
-          selectedGoal={selectedGoal}
-          handleSelectedGoalChange={handleSelectedGoalChange}
-          selectedMonth={selectedMonth}
-          handleSelectedStickerChange={handleSelectedStickerChange}
-          selectedSticker={selectedSticker}
-          handleGoalDeletion={handleGoalDeletion}
-        />
-        <Calendar
-          goals={goals}
-          stickers={stickers}
-          selectedGoal={selectedGoal}
-          selectedMonth={selectedMonth}
-          selectedSticker={selectedSticker}
-          prevMonth={prevMonth}
-          nextMonth={nextMonth}
-          modifyStickers={modifyStickers}
-          currentProgress={currentProgress}
-          getCurrentGoalProgress={getCurrentGoalProgress}
-        />
-        <ProgressBar percentAchieved={percentAchieved} />
-        <StorageWarning />
-        <Footer />
-        {showGoalDuplicateModal && (
-          <GeneralModal
-            title="No copies allowed!"
-            message="You can't create the same goal twice."
-            hideOrShowModal={hideOrShowGoalDuplicateModal}
+    <LanguageProvider>
+      <div className="App">
+        <Header />
+        <div className="main-wrapper">
+          <LanguageSelector />
+          <GoalsContainer
+            goals={goals}
+            addNewGoal={addNewGoal}
+            stickers={stickers}
+            selectedGoal={selectedGoal}
+            handleSelectedGoalChange={handleSelectedGoalChange}
+            selectedMonth={selectedMonth}
+            handleSelectedStickerChange={handleSelectedStickerChange}
+            selectedSticker={selectedSticker}
+            handleGoalDeletion={handleGoalDeletion}
           />
-        )}
-        {showNoGoalsModal && (
-          <GeneralModal 
-            title="Start with a new goal"
-            message="You need to create a goal before using the calendar and adding stickers."
-            hideOrShowModal={hideOrShowNoGoalsModal}
+          <Calendar
+            goals={goals}
+            stickers={stickers}
+            selectedGoal={selectedGoal}
+            selectedMonth={selectedMonth}
+            selectedSticker={selectedSticker}
+            prevMonth={prevMonth}
+            nextMonth={nextMonth}
+            modifyStickers={modifyStickers}
+            currentProgress={currentProgress}
+            getCurrentGoalProgress={getCurrentGoalProgress}
           />
-        )}
+          <ProgressBar percentAchieved={percentAchieved} />
+          <StorageWarning />
+          <Footer />
+          {showGoalDuplicateModal && (
+            <GeneralModal
+              title="No copies allowed!"
+              message="You can't create the same goal twice."
+              hideOrShowModal={hideOrShowGoalDuplicateModal}
+            />
+          )}
+          {showNoGoalsModal && (
+            <GeneralModal 
+              title="Start with a new goal"
+              message="You need to create a goal before using the calendar and adding stickers."
+              hideOrShowModal={hideOrShowNoGoalsModal}
+            />
+          )}
+        </div>
       </div>
-    </div>
+    </LanguageProvider>
   );
 }
 

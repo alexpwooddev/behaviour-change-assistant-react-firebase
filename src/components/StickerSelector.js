@@ -1,4 +1,5 @@
 import React from "react";
+import { Text } from '../containers/Language';
 
 const StickerSelector = (props) => {
   const handleSelectChange = (e) => {
@@ -7,7 +8,7 @@ const StickerSelector = (props) => {
 
   return (
     <div className="sticker-selector">
-      <h3><label htmlFor="stickers">Choose a sticker to mark completed goals:</label></h3>
+      <h3><label htmlFor="stickers"><Text tid="stickerInstruction"/>:</label></h3>
       <select
         name="stickers"
         id="stickers"
