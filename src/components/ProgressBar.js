@@ -1,12 +1,13 @@
 import React from "react";
+import { Text } from '../containers/Language';
 import "./ProgressBar.css";
 
 const ProgressBar = (props) => {
 
   return (
     <div className="progress-col">
-      <h2>Selected Goal Progress</h2>
-      <p className="progress-subtitle">&nbsp;(for this month's targeted days)</p>
+      <h2><Text tid="progressBarTitle"/></h2>
+      <p className="progress-subtitle">&nbsp;(<Text tid="progressBarSubtitle"/>)</p>
       <div className="progress-wrapper">
         <div className="progress-bar" style={{height: `${props.percentAchieved * 100}%`}}></div>
       </div>
