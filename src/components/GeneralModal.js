@@ -1,4 +1,5 @@
 import React from 'react';
+import { Text } from '../containers/Language';
 import "./GeneralModal.css";
 
 const GeneralModal = (props) => {
@@ -16,7 +17,7 @@ const GeneralModal = (props) => {
             className="btn btn-secondary"
             onClick={props.hideOrShowModal}
           >
-            Close
+            <Text tid="modalClose"/>
           </button>
         </div>
       </div>

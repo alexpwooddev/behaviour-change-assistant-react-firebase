@@ -1,11 +1,12 @@
-import React, { useState } from "react";
-import { Text } from '../containers/Language';
+import React, { useState, useContext } from "react";
+import { Text, LanguageContext } from '../containers/Language';
 import "./GoalCard.css";
 import DeleteModal from "./DeleteModal";
 
 
 const GoalCard = (props) => {
   const [showDeleteModal, toggleDeleteModal] = useState(false);
+  const { dictionary } = useContext(LanguageContext);
   
   const deleteGoal = (e) => {
     e.stopPropagation();
@@ -62,8 +63,8 @@ const GoalCard = (props) => {
       </div>
       {showDeleteModal && (
           <DeleteModal 
-            title="Delete"
-            message="Are you sure you want to delete this goal?"
+            title={dictionary.deleteModalTitle}
+            message={dictionary.deleteModalMessage}
             deleteGoal={deleteGoal} 
             hideOrShowDeleteModal={hideOrShowDeleteModal} 
             />

@@ -208,7 +208,7 @@ const GoalModal = (props) => {
                 className="btn btn-secondary"
                 onClick={props.hideOrShowGoalModal}
               >
-                <Text tid="goalModalCancelButton"/>
+                <Text tid="cancelButton"/>
               </button>
             </div>
           </form>
@@ -216,8 +216,8 @@ const GoalModal = (props) => {
       </div>
       {showCheckedDaysModal && (
         <GeneralModal 
-          title="You Might be Forgetting Something"
-          message="Remember to set the day/s on which you aim to do the activities to complete your goal."
+          title={dictionary.goalDaysIncompleteTitle}
+          message={dictionary.goalDaysIncompleteMessage}
           hideOrShowModal={hideOrShowCheckedDaysModal}
         />
       )}

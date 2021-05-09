@@ -34,7 +34,6 @@ const MonthHeader = (props) => {
    }
 
 
-
    return (
       <div className="header row flex-middle">
          <div className="column">
