@@ -1,4 +1,5 @@
 {
+    "appName": "Asistente para el Cambio de Hábitos",
     "goalsContainerHeader": "Metas para el Mes",
     "addGoalButton": "Añadir Meta",
     "deleteGoalButton": "Eliminar Meta",
@@ -42,5 +43,8 @@
     "deleteModalMessage": "Estás seguro de que quieres eliminar esta meta?",
     "deleteModalConfirmation": "Sí, eliminar",
     "goalsLimitModalTitle": "Recuerda, Menos es Más",
-    "goalsLimitModalMessage": "Priorizar lo que queremos cambiar aumenta nuestras posibilidades de éxito. Este asistente solo te permite crear hasta 3 metas a la vez."
-}
+    "goalsLimitModalMessage": "Priorizar lo que queremos cambiar aumenta nuestras posibilidades de éxito. Este asistente solo te permite crear hasta 3 metas a la vez.",
+    "goalCardText1": "Yo",
+    "goalCardText2": "me comprometo a",
+    "goalCardText3": "este mes en los siguientes días"
+}   

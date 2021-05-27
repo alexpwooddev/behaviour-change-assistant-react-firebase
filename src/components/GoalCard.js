@@ -50,7 +50,7 @@ const GoalCard = (props) => {
       onClick={() => props.handleSelectedGoalChange(props.goal[0])}
       >
 
-          <p>I, {props.goal[3]}, commit to <span className="goalText">{props.goal[0]}</span> this month on:</p><hr /> <p>{goalDays.join(', ')}.</p>
+          <p><Text tid="goalCardText1"/>, {props.goal[3]}, <Text tid="goalCardText2"/> <span className="goalText">{props.goal[0]}</span> <Text tid="goalCardText3"/>:</p><hr /> <p>{goalDays.join(', ')}.</p>
     
         <button 
           type="button" 

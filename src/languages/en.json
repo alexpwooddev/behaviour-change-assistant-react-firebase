@@ -1,4 +1,5 @@
 {
+    "appName": "Behaviour Change Assistant",
     "goalsContainerHeader": "Monthly Goals",
     "addGoalButton": "Add New Goal",
     "deleteGoalButton": "Delete Goal",
@@ -42,5 +43,8 @@
     "deleteModalMessage": "Are you sure you want to delete this goal?",
     "deleteModalConfirmation": "Yes, delete",
     "goalsLimitModalTitle": "Remember, Less is More" ,
-    "goalsLimitModalMessage": "Prioritising what we want to change increases our chances of success, so this assistant allows up to 3 goals at a time."
+    "goalsLimitModalMessage": "Prioritising what we want to change increases our chances of success, so this assistant allows up to 3 goals at a time.",
+    "goalCardText1": "I",
+    "goalCardText2": "commit to",
+    "goalCardText3": "this month on"
 }
