@@ -1,11 +1,13 @@
 import React from "react";
 import { Text } from '../containers/Language';
+import LanguageSelector from './LanguageSelector';
 import "./ProgressBar.css";
 
 const ProgressBar = (props) => {
 
   return (
     <div className="progress-col">
+      <LanguageSelector />
       <h2><Text tid="progressBarTitle"/></h2>
       <p className="progress-subtitle">&nbsp;(<Text tid="progressBarSubtitle"/>)</p>
       <div className="progress-wrapper">

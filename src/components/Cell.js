@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { isSameMonth } from "date-fns";
 import { createStickerRecord } from "../Factories/createStickerRecord.js";
-import { Text, LanguageContext } from '../containers/Language';
+import { LanguageContext } from '../containers/Language';
 import Sticker from "./Sticker";
 import AchievementModal from "./AchievementModal";
 import GeneralModal from "./GeneralModal";

@@ -7,7 +7,6 @@ import GeneralModal from "./components/GeneralModal";
 import GoalsContainer from "./components/GoalsContainer";
 import Header from "./components/Header";
 import { LanguageProvider } from './containers/Language';
-import LanguageSelector from './components/LanguageSelector';
 import ProgressBar from "./components/ProgressBar";
 import StorageWarning from "./components/StorageWarning";
 
@@ -191,7 +190,6 @@ function App() {
       <div className="App">
         <Header />
         <div className="main-wrapper">
-          <LanguageSelector />
           <GoalsContainer
             goals={goals}
             addNewGoal={addNewGoal}
