@@ -40,5 +40,7 @@
     "goalDaysIncompleteMessage": "Remember to set the day/s on which you aim to do the activities to complete your goal.",
     "deleteModalTitle": "Delete",
     "deleteModalMessage": "Are you sure you want to delete this goal?",
-    "deleteModalConfirmation": "Yes, delete"
+    "deleteModalConfirmation": "Yes, delete",
+    "goalsLimitModalTitle": "Remember, Less is More" ,
+    "goalsLimitModalMessage": "Prioritising what we want to change increases our chances of success, so this assistant allows up to 3 goals at a time."
 }

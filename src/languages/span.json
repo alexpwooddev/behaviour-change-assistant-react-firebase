@@ -40,5 +40,7 @@
     "goalDaysIncompleteMessage": "Recuardas escoger los días en los que quisieras hacer los actividades para lograr tu meta.",
     "deleteModalTitle": "Eliminar",
     "deleteModalMessage": "Estás seguro que quieres eliminar esta meta?",
-    "deleteModalConfirmation": "Sí, eliminar"
+    "deleteModalConfirmation": "Sí, eliminar",
+    "goalsLimitModalTitle": "Recuerda, Menos es Más",
+    "goalsLimitModalMessage": "Priorizar lo que queremos cambiar aumenta nuestras posibilidades de éxito, por lo que este asistente permite hasta 3 goles a la vez."
 }
