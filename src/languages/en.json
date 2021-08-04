@@ -46,5 +46,9 @@
     "goalsLimitModalMessage": "Prioritising what we want to change increases our chances of success, so this assistant allows up to 3 goals at a time.",
     "goalCardText1": "I",
     "goalCardText2": "commit to",
-    "goalCardText3": "this month on"
+    "goalCardText3": "this month on",
+    "noGoalsModalTitle": "Start with a new goal",
+    "noGoalsModalMessage": "You need to create a goal before using the calendar and adding stickers.",
+    "goalDuplicateModalTitle": "No copies allowed!",
+    "goalDuplicateModalMessage": "You can't create the same goal twice."
 }

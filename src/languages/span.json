@@ -46,5 +46,9 @@
     "goalsLimitModalMessage": "Priorizar lo que queremos cambiar aumenta nuestras posibilidades de éxito. Este asistente solo te permite crear hasta 3 metas a la vez.",
     "goalCardText1": "Yo",
     "goalCardText2": "me comprometo a",
-    "goalCardText3": "este mes en los siguientes días"
+    "goalCardText3": "este mes en los siguientes días",
+    "noGoalsModalTitle": "Empieza con una nueva meta",
+    "noGoalsModalMessage": "Debes crear una meta antes de usar el calendario y agregar stickers.",
+    "goalDuplicateModalTitle": "¡No se permiten copias!",
+    "goalDuplicateModalMessage": "No puedes crear la misma meta dos veces."
 }   

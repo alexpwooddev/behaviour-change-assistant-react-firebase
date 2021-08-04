@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { addMonths, subMonths } from "date-fns";
 
 import Calendar from "./components/Calendar";
@@ -6,7 +6,7 @@ import Footer from "./components/Footer";
 import GeneralModal from "./components/GeneralModal";
 import GoalsContainer from "./components/GoalsContainer";
 import Header from "./components/Header";
-import { LanguageProvider } from './containers/Language';
+import { LanguageContext } from './containers/Language';
 import ProgressBar from "./components/ProgressBar";
 import StorageWarning from "./components/StorageWarning";
 
@@ -20,6 +20,7 @@ function App() {
   const [showGoalDuplicateModal, toggleGoalDuplicateModal] = useState(false);
   const [showNoGoalsModal, toggleNoGoalsModal] = useState(false);
   const [selectedSticker, setSelectedSticker] = useState("monkey");
+  const { dictionary } = useContext(LanguageContext);
 
   let initialGoalsState;
   if (goals.length > 0){
@@ -186,7 +187,6 @@ function App() {
     : 0;
 
   return (
-    <LanguageProvider>
       <div className="App">
         <Header />
         <div className="main-wrapper">
@@ -218,21 +218,20 @@ function App() {
           <Footer />
           {showGoalDuplicateModal && (
             <GeneralModal
-              title="No copies allowed!"
-              message="You can't create the same goal twice."
+              title={dictionary.goalDuplicateModalTitle}
+              message={dictionary.goalDuplicateModalTitle}
               hideOrShowModal={hideOrShowGoalDuplicateModal}
             />
           )}
           {showNoGoalsModal && (
             <GeneralModal 
-              title="Start with a new goal"
-              message="You need to create a goal before using the calendar and adding stickers."
+              title={dictionary.noGoalsModalTitle}
+              message={dictionary.noGoalsModalMessage}
               hideOrShowModal={hideOrShowNoGoalsModal}
             />
           )}
         </div>
       </div>
-    </LanguageProvider>
   );
 }
 
