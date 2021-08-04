@@ -1,11 +1,12 @@
 import React from 'react';
+import { Text } from '../containers/Language';
 import "./StorageWarning.css";
 
 
 const StorageWarning = () => {
    return (
       <p className="storage-warning">
-          <span className="bold">WARNING:</span> your goals &amp; stickers are stored in your browser history. If you clear your history, you'll lose them!!!
+          <span className="bold"><Text tid="storageWarningP1"/>:&nbsp;</span><Text tid="storageWarningP2" /> 
       </p>
    );
 };

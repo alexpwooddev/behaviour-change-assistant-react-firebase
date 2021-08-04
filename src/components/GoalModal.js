@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { Text, LanguageContext } from '../containers/Language';
 import "./GoalModal.css";
 import GeneralModal from "./GeneralModal";
 
 const GoalModal = (props) => {
-  const [showCheckedDaysModal, toggleCheckedDaysModal] = useState(false)
+  const [showCheckedDaysModal, toggleCheckedDaysModal] = useState(false);
+  const { dictionary } = useContext(LanguageContext);
   const dayToIndexMapper = {
     0: "monday",
     1: "tuesday",
@@ -64,14 +66,14 @@ const GoalModal = (props) => {
     <div className="modal goal-modal">
       <div className="modal-content">
         <div className="modal-header">
-          <h5 className="modal-title">Add New Goal</h5>
+          <h5 className="modal-title"><Text tid="goalModalTitle"/></h5>
         </div>
         <div className="modal-body">
           <form className="goalForm" id="goalForm" onSubmit={addGoal}>
             <fieldset>
               <div id="promise-container">
                 <p>
-                  I,<br />
+                  <Text tid="goalModalPhraseP1"/>,<br />
                   <input
                     type="text"
                     value={nameInput}
@@ -80,11 +82,11 @@ const GoalModal = (props) => {
                     required
                   />{" "}
                   <br />{" "}
-                  <span className="input-instruction name-instruction">(your name)</span>
+                  <span className="input-instruction name-instruction">(<Text tid="goalModalNameInstruction"/>)</span>
                 </p>
                 <p>
                 <label htmlFor="goalTitle" id="goal-modal-title">
-                commit to:<br />
+                <Text tid="goalModalPhraseP2" />:<br />
                 </label>
                 <input
                   type="text"
@@ -96,12 +98,12 @@ const GoalModal = (props) => {
                   required
                 />
                 <br />
-                <span className="input-instruction behaviour-instruction">(desired behaviour - max 50 characters)</span>
+                <span className="input-instruction behaviour-instruction">(<Text tid="goalModalGoalInstruction" />)</span>
               </p>
               </div>
               <p>
                 <label htmlFor="goalColour">
-                  Goal Colour:&nbsp;
+                  <Text tid="goalModalColourSelector"/>:&nbsp;
                 </label>
                 <input
                   type="color"
@@ -112,7 +114,7 @@ const GoalModal = (props) => {
                   required
                 />
               </p>
-              <p className="days-instruction">I will do this on:</p>
+              <p className="days-instruction"><Text tid="goalModalDaysTitle"/>:</p>
               <div className="days-wrapper">
                 <div>
                   <input
@@ -123,7 +125,7 @@ const GoalModal = (props) => {
                     checked={checkedDays[0]}
                     onChange={() => changeCheckedDays(0)}
                   />
-                  <label htmlFor="monday">Monday</label>
+                  <label htmlFor="monday"><Text tid="goalModalDay1"/></label>
                 </div>
                 <div>
                   <input
@@ -134,7 +136,7 @@ const GoalModal = (props) => {
                     checked={checkedDays[1]}
                     onChange={() => changeCheckedDays(1)}
                   />
-                  <label htmlFor="tuesday">Tuesday</label>
+                  <label htmlFor="tuesday"><Text tid="goalModalDay2"/></label>
                 </div>
                 <div>
                   <input
@@ -145,7 +147,7 @@ const GoalModal = (props) => {
                     checked={checkedDays[2]}
                     onChange={() => changeCheckedDays(2)}
                   />
-                  <label htmlFor="wednesday">Wednesday</label>
+                  <label htmlFor="wednesday"><Text tid="goalModalDay3"/></label>
                 </div>
                 <div>
                   <input
@@ -156,7 +158,7 @@ const GoalModal = (props) => {
                     checked={checkedDays[3]}
                     onChange={() => changeCheckedDays(3)}
                   />
-                  <label htmlFor="thursday">Thursday</label>
+                  <label htmlFor="thursday"><Text tid="goalModalDay4"/></label>
                 </div>
                 <div>
                   <input
@@ -167,7 +169,7 @@ const GoalModal = (props) => {
                     checked={checkedDays[4]}
                     onChange={() => changeCheckedDays(4)}
                   />
-                  <label htmlFor="friday">Friday</label>
+                  <label htmlFor="friday"><Text tid="goalModalDay5"/></label>
                 </div>
                 <div>
                   <input
@@ -178,7 +180,7 @@ const GoalModal = (props) => {
                     checked={checkedDays[5]}
                     onChange={() => changeCheckedDays(5)}
                   />
-                  <label htmlFor="saturday">Saturday</label>
+                  <label htmlFor="saturday"><Text tid="goalModalDay6"/></label>
                 </div>
                 <div>
                   <input
@@ -189,7 +191,7 @@ const GoalModal = (props) => {
                     checked={checkedDays[6]}
                     onChange={() => changeCheckedDays(6)}
                   />
-                  <label htmlFor="sunday">Sunday</label>
+                  <label htmlFor="sunday"><Text tid="goalModalDay7"/></label>
                 </div>
               </div>            
             </fieldset>
@@ -198,7 +200,7 @@ const GoalModal = (props) => {
                 className="btn btn-primary"
                 id="save-goal"
                 type="submit"
-                value="Save Goal"
+                value={dictionary.goalModalSaveGoalButton}
               ></input>
               <button
                 id="modal-close-button"
@@ -206,7 +208,7 @@ const GoalModal = (props) => {
                 className="btn btn-secondary"
                 onClick={props.hideOrShowGoalModal}
               >
-                Cancel
+                <Text tid="cancelButton"/>
               </button>
             </div>
           </form>
@@ -214,8 +216,8 @@ const GoalModal = (props) => {
       </div>
       {showCheckedDaysModal && (
         <GeneralModal 
-          title="You Might be Forgetting Something"
-          message="Remember to set the day/s on which you aim to do the activities to complete your goal."
+          title={dictionary.goalDaysIncompleteTitle}
+          message={dictionary.goalDaysIncompleteMessage}
           hideOrShowModal={hideOrShowCheckedDaysModal}
         />
       )}

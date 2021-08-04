@@ -1,0 +1,9 @@
+.language-selector {
+    text-align: center;
+    padding: 5px;
+    font-weight:400;
+    color: var(--mindspace-background-blue-green);
+    border-color: var(--mindpsace-yellow);
+    border-radius: 2px;
+    font-family: inherit;
+ }

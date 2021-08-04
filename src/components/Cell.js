@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { isSameMonth } from "date-fns";
 import { createStickerRecord } from "../Factories/createStickerRecord.js";
+import { LanguageContext } from '../containers/Language';
 import Sticker from "./Sticker";
 import AchievementModal from "./AchievementModal";
 import GeneralModal from "./GeneralModal";
@@ -11,6 +12,7 @@ const Cell = (props) => {
   const [achievementMessage, setAchievementMessage] = useState("");
   const [showAchievementModal, toggleAchievementModal] = useState(false);
   const [showFutureErrorModal, toggleFutureErrorModal] = useState(false);
+  const { dictionary } = useContext(LanguageContext);
   const date = props.day.getDate();
   const isCurrentMonth = isSameMonth(props.day, props.monthStart);
   const futureClass = props.isFutureDayThisMonth ? 'future-cell' : '';
@@ -92,10 +94,9 @@ const Cell = (props) => {
     setAchievement(newAchievement);
 
     let achievementMessages = {
-      fiveDayMessage: "Well done - that's 5 days so far this month!",
-      fullMonthMessage:
-        "Well done! You hit your goal for every day of this month!",
-      nonGoalDayMessage: "An extra day? Well done!",
+      fiveDayMessage: dictionary.fiveDayMessage,
+      fullMonthMessage: dictionary.fullMonthMessage,
+      nonGoalDayMessage: dictionary.nonGoalDayMessage,
     };
 
     if (newAchievement === "5Days") {
@@ -171,8 +172,8 @@ const Cell = (props) => {
       )}
       {showFutureErrorModal && (
         <GeneralModal 
-          title="Time Travel Unavailable"
-          message="Love the enthusiasm, but remember you're tracking completed actions, not intentions, so you can only add stickers to today or past days."
+          title={dictionary.futureErrorTitle}
+          message={dictionary.futureErrorMessage}
           hideOrShowModal={hideOrShowFutureErrorModal}      
         />
       )}

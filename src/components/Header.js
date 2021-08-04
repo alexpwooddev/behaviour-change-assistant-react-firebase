@@ -1,4 +1,6 @@
 import React from "react";
+
+import { Text } from '../containers/Language';
 import './Header.css';
 
 const Header = () => {
@@ -9,7 +11,7 @@ const Header = () => {
         alt="company logo"
         id="header-image-left"
       /> */}
-      <h1>Behaviour Change Assistant</h1>
+      <h1><Text tid="appName"/></h1>
     </header>
   );
 };

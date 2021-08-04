@@ -1,4 +1,6 @@
 import React from "react";
+import { Text } from '../containers/Language';
+
 import "./AchievementModal.css";
 
 const AchievementModal = (props) => {
@@ -7,7 +9,7 @@ const AchievementModal = (props) => {
       <div className="modal achievement-modal">
         <div className="modal-content">
         <div className="modal-header">
-          <h5 className="modal-title">New Achievement!</h5>
+          <h5 className="modal-title"><Text tid="achievementTitle"/></h5>
         </div>
         <div className="modal-body">{props.message}</div>
         <div className="modal-footer">
@@ -17,7 +19,7 @@ const AchievementModal = (props) => {
             className="btn btn-secondary"
             onClick={props.hideOrShowAchievementModal}
           >
-            Close
+            <Text tid="modalClose"/>
           </button>
         </div>
       </div>

@@ -1,4 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+
+import { LanguageContext } from '../containers/Language';
+
 import HeaderAndButton from "./HeaderAndButton";
 import "./GoalsContainer.css";
 import StickerSelector from "./StickerSelector";
@@ -10,6 +13,7 @@ const GoalsContainer = (props) => {
   const [showGoalModal, toggleGoalModal] = useState(false);
   const [showGoalsLimitModal, toggleShowGoalsLimitModal] = useState(false);
   const goals = props.goals;
+  const { dictionary } = useContext(LanguageContext);
 
   const hideOrShowGoalsLimitModal = () => {
     toggleShowGoalsLimitModal(!showGoalsLimitModal);
@@ -58,8 +62,8 @@ const GoalsContainer = (props) => {
       )}
       {showGoalsLimitModal && (
         <GeneralModal 
-          title="Remember, Less is More" 
-          message="Prioritising what we want to change increases our chances of success, so this assistant allows up to 3 goals at a time."
+          title={dictionary.goalsLimitModalTitle}
+          message={dictionary.goalsLimitModalMessage}
           hideOrShowModal={hideOrShowGoalsLimitModal} />
       )}
     </div>

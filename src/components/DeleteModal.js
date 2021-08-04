@@ -1,4 +1,5 @@
 import React from 'react';
+import { Text } from '../containers/Language';
 import "./DeleteModal.css";
 
 const DeleteModal = (props) => {
@@ -16,7 +17,7 @@ const DeleteModal = (props) => {
             className="btn btn-secondary"
             onClick={props.deleteGoal}
           >
-            Yes, delete!
+            <Text tid="deleteModalConfirmation" />
           </button>
           <button
             id="modal-close-button"
@@ -24,7 +25,7 @@ const DeleteModal = (props) => {
             className="btn btn-secondary"
             onClick={props.hideOrShowDeleteModal}
           >
-            Cancel
+            <Text tid="cancelButton" />
           </button>
         </div>
       </div>
