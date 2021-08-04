@@ -17,7 +17,7 @@ const GoalModal = (props) => {
   };
   const [nameInput, setNameInput] = useState("");
   const [goalInput, setGoalInput] = useState("");
-  const [colourInput, setColourInput] = useState("#4FE899");
+  const [colourInput, setColourInput] = useState("#d028e6");
   const [checkedDays, setCheckedDays] = useState([
     true,
     false,
