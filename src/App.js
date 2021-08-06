@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { addMonths, subMonths } from "date-fns";
 
 import Calendar from "./components/Calendar";
+import { dayToIndexMapper } from "./utils/dayToIndexMapper";
 import Footer from "./components/Footer";
 import GeneralModal from "./components/GeneralModal";
 import GoalsContainer from "./components/GoalsContainer";
@@ -20,19 +21,10 @@ function App() {
   const [showGoalDuplicateModal, toggleGoalDuplicateModal] = useState(false);
   const [showNoGoalsModal, toggleNoGoalsModal] = useState(false);
   const [selectedSticker, setSelectedSticker] = useState("monkey");
-  const { dictionary } = useContext(LanguageContext);
-
-  let initialGoalsState;
-  if (goals.length > 0){
-    initialGoalsState = goals[0][0];
-  } else {
-    initialGoalsState = ""
-  }
-
-  const [selectedGoal, setSelectedGoal] = useState(initialGoalsState);
+  const [selectedGoal, setSelectedGoal] = useState(goals.length > 0 ? goals[0][0] : "");
   const [selectedMonth, setSelectedMonth] = useState(new Date());
 
-  
+  const { dictionary } = useContext(LanguageContext);
 
   useEffect(() => {
     dataHelper.createToLocalStorage('goalsRecord', goals);
@@ -109,16 +101,6 @@ function App() {
     setStickers(stickersArray);
   };
 
-  const dayToIndexMapper = {
-    sunday: "0",
-    monday: "1",
-    tuesday: "2",
-    wednesday: "3",
-    thursday: "4",
-    friday: "5",
-    saturday: "6",
-  };
-
   function getCurrentGoalProgress(stickersArray) {
     if (goals.length === 0) {
       return {
@@ -179,12 +161,15 @@ function App() {
   }
 
   let currentProgress = getCurrentGoalProgress(stickers);
-  let stickersCurrentMonth = currentProgress.stickersCurrentMonth;
-  let totalGoalDaysCurrentMonth = currentProgress.totalGoalDaysCurrentMonth;
 
-  let percentAchieved = selectedGoal
-    ? parseFloat(stickersCurrentMonth / totalGoalDaysCurrentMonth)
-    : 0;
+  const calculatePercentAchieved = () => {
+    let stickersCurrentMonth = currentProgress.stickersCurrentMonth;
+    let totalGoalDaysCurrentMonth = currentProgress.totalGoalDaysCurrentMonth;
+    let percentAchieved = selectedGoal
+      ? parseFloat(stickersCurrentMonth / totalGoalDaysCurrentMonth)
+      : 0;
+    return percentAchieved;
+  }
 
   return (
       <div className="App">
@@ -213,7 +198,7 @@ function App() {
             currentProgress={currentProgress}
             getCurrentGoalProgress={getCurrentGoalProgress}
           />
-          <ProgressBar percentAchieved={percentAchieved} />
+          <ProgressBar percentAchieved={calculatePercentAchieved()} />
           <StorageWarning />
           <Footer />
           {showGoalDuplicateModal && (
