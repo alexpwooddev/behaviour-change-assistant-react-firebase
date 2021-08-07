@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useReducer } from "react";
 import { addMonths, subMonths } from "date-fns";
 
 import Calendar from "./components/Calendar";
@@ -14,95 +14,166 @@ import StorageWarning from "./components/StorageWarning";
 import "./App.css";
 import * as dataHelper from './dataHelper.js';
 
+const defaultState = {
+  goals: dataHelper.readGoalsFromLocal('goalsRecord'),
+  stickers: dataHelper.readStickersFromLocal('stickersAndDatesRecord'),
+  selectedSticker: "monkey",
+  selectedMonth: new Date(),
+  showGoalDuplicateModal: false,
+  showNoGoalsModal: false,
+}
+
+const reducer = (state, action) => {
+  if (action.type ==="ADD_GOAL") {
+    const newGoals = [...state.goals, action.payload];
+    return {
+      ...state,
+      goals: newGoals,
+    }
+  }
+  if (action.type === "SET_GOALS") {
+    return {
+      ...state,
+      goals: action.payload,
+    }
+  }
+  if (action.type === "SET_STICKERS") {
+    return {
+      ...state,
+      stickers: action.payload,
+    }
+  }
+  if (action.type === "SET_SELECTED_STICKER") {
+    return {
+      ...state,
+      selectedSticker: action.payload,
+    }
+  }
+  if (action.type === "SET_SELECTED_MONTH") {
+    let newSelectedMonth;
+    if (action.payload === "add") {
+      newSelectedMonth = addMonths(state.selectedMonth, 1);
+    } else {
+      newSelectedMonth = subMonths(state.selectedMonth, 1);
+    }
+    return {
+      ...state,
+      selectedMonth: newSelectedMonth,
+    }
+  }
+  if (action.type === "TOGGLE_GOAL_DUPLICATE_MODAL") {
+    return {
+      ...state,
+      showGoalDuplicateModal: !state.showGoalDuplicateModal,
+    }
+  }
+  if (action.type === "TOGGLE_NO_GOALS_MODAL") {
+    return {
+      ...state,
+      showNoGoalsModal: !state.showNoGoalsModal,
+    }
+  } 
+
+  throw new Error("no matching action type");
+}
 
 function App() {
-  const [goals, setGoals] = useState(dataHelper.readGoalsFromLocal('goalsRecord'));
-  const [stickers, setStickers] = useState(dataHelper.readStickersFromLocal('stickersAndDatesRecord'));
-  const [showGoalDuplicateModal, toggleGoalDuplicateModal] = useState(false);
-  const [showNoGoalsModal, toggleNoGoalsModal] = useState(false);
-  const [selectedSticker, setSelectedSticker] = useState("monkey");
-  const [selectedGoal, setSelectedGoal] = useState(goals.length > 0 ? goals[0][0] : "");
-  const [selectedMonth, setSelectedMonth] = useState(new Date());
+  const [state, dispatch] = useReducer(reducer, defaultState);
+  const [selectedGoal, setSelectedGoal] = useState(state.goals.length > 0 ? state.goals[0][0] : "");
 
   const { dictionary } = useContext(LanguageContext);
 
   useEffect(() => {
-    dataHelper.createToLocalStorage('goalsRecord', goals);
-  }, [goals]);
+    dataHelper.createToLocalStorage('goalsRecord', state.goals);
+  }, [state.goals]);
 
   useEffect(() => {
-    dataHelper.createToLocalStorage('stickersAndDatesRecord', stickers);
-  }, [stickers]);
+    dataHelper.createToLocalStorage('stickersAndDatesRecord', state.stickers);
+  }, [state.stickers]);
 
+
+  /* -----------------------------
+  -----STATE MANAGEMENT------
+  --------------------------------- */
   const hideOrShowGoalDuplicateModal = () => {
-    toggleGoalDuplicateModal(!showGoalDuplicateModal);
+    dispatch({type: "TOGGLE_GOAL_DUPLICATE_MODAL"});
   };
 
   const hideOrShowNoGoalsModal = () => {
-    toggleNoGoalsModal(!showNoGoalsModal);
-  };
-
-  const nextMonth = () => {
-    setSelectedMonth(addMonths(selectedMonth, 1));
-  };
-
-  const prevMonth = () => {
-    setSelectedMonth(subMonths(selectedMonth, 1));
-  };
-
-  const handleSelectedGoalChange = (goal) => {
-    setSelectedGoal(goal);
-
-    const lastStickerThisGoalAndMonth = stickers
-      .filter((obj) => obj["month"] === selectedMonth.getMonth())
-      .filter((obj) => obj["goal"] === goal)
-      .pop();
-
-    if (lastStickerThisGoalAndMonth) {
-      setSelectedSticker(lastStickerThisGoalAndMonth["sticker"]);
-    } else {
-      setSelectedSticker("monkey");
-    }
-  };
-
-  const addNewGoal = (goal) => {
-    const goalDuplicate = goals.filter(goalRecord => goalRecord[0] === goal[0]);
-    if (goalDuplicate.length > 0) {
-      hideOrShowGoalDuplicateModal();
-      return;
-    }
-    
-    let newGoalsArray = Array.from(goals);
-    newGoalsArray.push(goal);
-    setGoals(newGoalsArray);
-    setSelectedGoal(goal[0]);
-  };
-
-  const handleGoalDeletion = (newGoals, newStickers) => {
-    setGoals(newGoals);
-    setStickers(newStickers);
-
-    let newSelectedGoal = newGoals.length === 0 ? "" : newGoals[0][0];
-    setSelectedGoal(newSelectedGoal);
+    dispatch ({type: "TOGGLE_NO_GOALS_MODAL"});
   };
 
   const handleSelectedStickerChange = (sticker) => {
-    setSelectedSticker(sticker);
+    dispatch({type: "SET_SELECTED_STICKER", payload: sticker})
   };
-
-  const noGoalsExist = goals.length > 0 ? false : true;
 
   const modifyStickers = (stickersArray) => {  
     if (noGoalsExist) {
       hideOrShowNoGoalsModal();
       return;
     }
-    
-    setStickers(stickersArray);
+    dispatch({type: "SET_STICKERS", payload: stickersArray});
   };
 
+  const nextMonth = () => {
+    dispatch({type: "SET_SELECTED_MONTH", payload: "add"});
+  };
+
+  const prevMonth = () => {
+    dispatch({type: "SET_SELECTED_MONTH", payload: "subtract"});
+  };
+
+  const addNewGoal = (goal) => {
+    if (goalDuplicateCheck(goal)) return;
+    
+    dispatch({type:"ADD_GOAL", payload: goal});
+    setSelectedGoal(goal[0]);
+  };
+
+
+  /* -----------------------------
+  -----LOGIC ON STATE------
+  --------------------------------- */
+
+  const goalDuplicateCheck = (goal) => {
+    const goalDuplicate = state.goals.filter(goalRecord => goalRecord[0] === goal[0]);
+    const goalDupliacteExists = goalDuplicate.length > 0;
+    if (goalDupliacteExists) {
+      hideOrShowGoalDuplicateModal();
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  const handleSelectedGoalChange = (goal) => {
+    setSelectedGoal(goal);
+
+    const lastStickerThisGoalAndMonth = state.stickers
+      .filter((obj) => obj["month"] === state.selectedMonth.getMonth())
+      .filter((obj) => obj["goal"] === goal)
+      .pop();
+
+    if (lastStickerThisGoalAndMonth) {
+      handleSelectedStickerChange(lastStickerThisGoalAndMonth["sticker"]);
+    } else {
+      handleSelectedStickerChange("monkey");
+    }
+  };
+
+  const handleGoalDeletion = (newGoals, newStickers) => {
+    dispatch({type:"SET_GOALS", payload: newGoals});
+
+    modifyStickers(newStickers);
+
+    let newSelectedGoal = newGoals.length === 0 ? "" : newGoals[0][0];
+    setSelectedGoal(newSelectedGoal);
+  };
+
+  const noGoalsExist = state.goals.length > 0 ? false : true;
+
   function getCurrentGoalProgress(stickersArray) {
-    if (goals.length === 0) {
+    if (state.goals.length === 0) {
       return {
         stickersCurrentMonth: 0,
         totalGoalDaysCurrentMonth: 0,
@@ -110,16 +181,16 @@ function App() {
     }
 
     let goalDays;
-    if (goals.length > 0 && selectedGoal !== "") {
-      goalDays = goals.filter(
+    if (state.goals.length > 0 && selectedGoal !== "") {
+      goalDays = state.goals.filter(
         (recordArr) => recordArr[0] === selectedGoal
       )[0][1];
     } else {
       goalDays = [];
     }
 
-    const currentYear = selectedMonth.getFullYear();
-    const currentMonth = selectedMonth.getMonth();
+    const currentYear = state.selectedMonth.getFullYear();
+    const currentMonth = state.selectedMonth.getMonth();
     const allGoalDayTypeCounts = [];
     goalDays.forEach((goalDay) => {
       allGoalDayTypeCounts.push(
@@ -160,7 +231,7 @@ function App() {
     return counter;
   }
 
-  let currentProgress = getCurrentGoalProgress(stickers);
+  let currentProgress = getCurrentGoalProgress(state.stickers);
 
   const calculatePercentAchieved = () => {
     let stickersCurrentMonth = currentProgress.stickersCurrentMonth;
@@ -176,22 +247,22 @@ function App() {
         <Header />
         <div className="main-wrapper">
           <GoalsContainer
-            goals={goals}
+            goals={state.goals}
             addNewGoal={addNewGoal}
-            stickers={stickers}
+            stickers={state.stickers}
             selectedGoal={selectedGoal}
             handleSelectedGoalChange={handleSelectedGoalChange}
-            selectedMonth={selectedMonth}
+            selectedMonth={state.selectedMonth}
             handleSelectedStickerChange={handleSelectedStickerChange}
-            selectedSticker={selectedSticker}
+            selectedSticker={state.selectedSticker}
             handleGoalDeletion={handleGoalDeletion}
           />
           <Calendar
-            goals={goals}
-            stickers={stickers}
+            goals={state.goals}
+            stickers={state.stickers}
             selectedGoal={selectedGoal}
-            selectedMonth={selectedMonth}
-            selectedSticker={selectedSticker}
+            selectedMonth={state.selectedMonth}
+            selectedSticker={state.selectedSticker}
             prevMonth={prevMonth}
             nextMonth={nextMonth}
             modifyStickers={modifyStickers}
@@ -201,14 +272,14 @@ function App() {
           <ProgressBar percentAchieved={calculatePercentAchieved()} />
           <StorageWarning />
           <Footer />
-          {showGoalDuplicateModal && (
+          {state.showGoalDuplicateModal && (
             <GeneralModal
               title={dictionary.goalDuplicateModalTitle}
               message={dictionary.goalDuplicateModalTitle}
               hideOrShowModal={hideOrShowGoalDuplicateModal}
             />
           )}
-          {showNoGoalsModal && (
+          {state.showNoGoalsModal && (
             <GeneralModal 
               title={dictionary.noGoalsModalTitle}
               message={dictionary.noGoalsModalMessage}
