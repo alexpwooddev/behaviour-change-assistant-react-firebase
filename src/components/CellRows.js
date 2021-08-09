@@ -70,7 +70,6 @@ const CellRows = (props) => {
           cellClass={cellClass}
           modifyStickers={props.modifyStickers}
           getCurrentGoalProgress={props.getCurrentGoalProgress}
-          currentProgress={props.currentProgress}
         />
       );
       day = addDays(day, 1);

@@ -113,11 +113,10 @@ const Cell = (props) => {
 
   function checkIfGoalAchievedOnThisClick(stickersArray) {
     let totalStickersCurrentMonth = props.getCurrentGoalProgress(stickersArray).stickersCurrentMonth;
-    let totalGoalDaysCurrentMonth =
-      props.currentProgress.totalGoalDaysCurrentMonth;
+    let currentProgress = props.getCurrentGoalProgress(props.stickers);
+    let totalGoalDaysCurrentMonth = currentProgress.totalGoalDaysCurrentMonth;
 
     const achievementCheckFuncs = [];
-
     achievementCheckFuncs.push(
       [
         fullMonthComplete,
