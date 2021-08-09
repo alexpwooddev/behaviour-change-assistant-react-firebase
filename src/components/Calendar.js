@@ -28,7 +28,6 @@ const Calendar = (props) => {
             goals={props.goals}
             stickers={props.stickers}
             modifyStickers={props.modifyStickers}
-            currentProgress={props.currentProgress}
             getCurrentGoalProgress={props.getCurrentGoalProgress}
           />
         </div>
