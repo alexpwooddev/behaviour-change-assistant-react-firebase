@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import { Text } from '../containers/Language';
 import "./GeneralModal.css";
 
@@ -23,8 +25,12 @@ const GeneralModal = (props) => {
       </div>
       </div>
    );
-   
-  
 };
+
+GeneralModal.propTypes = {
+  title: PropTypes.string.isRequired,
+  message: PropTypes.string.isRequired,
+  hideOrShowModal: PropTypes.func.isRequired,
+}
 
 export default GeneralModal;

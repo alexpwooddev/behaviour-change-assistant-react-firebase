@@ -1,4 +1,6 @@
 import React from "react";
+import PropTypes from 'prop-types';
+
 import { Text } from '../containers/Language';
 import LanguageSelector from './LanguageSelector';
 import "./ProgressBar.css";
@@ -25,5 +27,11 @@ const ProgressBar = (props) => {
     </div>
   );
 };
+
+ProgressBar.propTypes = {
+  selectedGoal: PropTypes.string.isRequired,
+  stickers: PropTypes.array.isRequired,
+  getCurrentGoalProgress: PropTypes.func.isRequired,
+}
 
 export default ProgressBar;

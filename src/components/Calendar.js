@@ -1,4 +1,6 @@
 import React from "react";
+import PropTypes from 'prop-types';
+
 import "./Calendar.css";
 import MonthHeader from "./MonthHeader";
 import DaysHeader from "./DaysHeader";
@@ -35,5 +37,17 @@ const Calendar = (props) => {
     </div>
   );
 };
+
+Calendar.propTypes = {
+  goals: PropTypes.array.isRequired,
+  stickers: PropTypes.array.isRequired,
+  selectedGoal: PropTypes.string.isRequired,
+  selectedMonth: PropTypes.instanceOf(Date).isRequired,
+  selectedSticker: PropTypes.string.isRequired,
+  prevMonth: PropTypes.func.isRequired,
+  nextMonth: PropTypes.func.isRequired,
+  modifyStickers: PropTypes.func.isRequired,
+  getCurrentGoalProgress: PropTypes.func.isRequired,
+}
 
 export default Calendar;

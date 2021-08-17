@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import PropTypes from 'prop-types';
 import { Text, LanguageContext } from '../containers/Language';
 import "./GoalCard.css";
 import DeleteModal from "./DeleteModal";
@@ -73,5 +74,14 @@ const GoalCard = (props) => {
     
   );
 };
+
+GoalCard.propTypes = {
+  goal: PropTypes.array.isRequired,
+  goals: PropTypes.array.isRequired,
+  stickers: PropTypes.array.isRequired,
+  handleSelectedGoalChange: PropTypes.func.isRequired,
+  handleGoalDeletion: PropTypes.func.isRequired,
+  selectedGoal: PropTypes.string.isRequired,
+}
 
 export default GoalCard;
