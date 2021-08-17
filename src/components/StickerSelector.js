@@ -1,4 +1,6 @@
 import React, { useContext } from "react";
+import PropTypes from 'prop-types';
+
 import { Text, LanguageContext } from '../containers/Language';
 
 const StickerSelector = (props) => {
@@ -24,5 +26,13 @@ const StickerSelector = (props) => {
     </div>
   );
 };
+
+StickerSelector.propTypes = {
+  selectedGoal: PropTypes.string.isRequired,
+  stickers: PropTypes.array.isRequired,
+  selectedMonth: PropTypes.instanceOf(Date).isRequired,
+  handleSelectedStickerChange: PropTypes.func.isRequired,
+  selectedSticker: PropTypes.string.isRequired,
+}
 
 export default StickerSelector;

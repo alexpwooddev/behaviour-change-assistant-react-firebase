@@ -1,5 +1,7 @@
 import React, { useState, useContext } from "react";
+import PropTypes from 'prop-types';
 import { isSameMonth } from "date-fns";
+
 import { createStickerRecord } from "../Factories/createStickerRecord.js";
 import { LanguageContext } from '../containers/Language';
 import Sticker from "./Sticker";
@@ -179,5 +181,20 @@ const Cell = (props) => {
     </div>
   );
 };
+
+Cell.propTypes = {
+  isFutureDayThisMonth: PropTypes.bool.isRequired,
+  backgroundColor: PropTypes.string.isRequired,
+  day: PropTypes.instanceOf(Date).isRequired,
+  monthStart: PropTypes.instanceOf(Date).isRequired,
+  selectedMonth: PropTypes.instanceOf(Date).isRequired,
+  selectedGoal: PropTypes.string.isRequired,
+  selectedSticker: PropTypes.string.isRequired,
+  formattedDate: PropTypes.string.isRequired,
+  stickers: PropTypes.array.isRequired,
+  cellClass: PropTypes.string.isRequired,
+  modifyStickers: PropTypes.func.isRequired,
+  getCurrentGoalProgress: PropTypes.func.isRequired,
+}
 
 export default Cell;

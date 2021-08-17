@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import PropTypes from 'prop-types';
 import { format } from "date-fns";
 
 import { LanguageContext } from '../containers/Language';
@@ -52,5 +53,11 @@ const MonthHeader = (props) => {
       </div>
    );
 };
+
+MonthHeader.propTypes = {
+   prevMonth: PropTypes.func.isRequired,
+   nextMonth: PropTypes.func.isRequired,
+   selectedMonth: PropTypes.instanceOf(Date).isRequired,
+}
 
 export default MonthHeader;

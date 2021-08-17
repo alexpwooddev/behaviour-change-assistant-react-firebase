@@ -24,7 +24,6 @@ const Calendar = (props) => {
         <div>
           <CellRows
             selectedMonth={props.selectedMonth}
-            onDateClick={props.onDateClick}
             selectedGoal={props.selectedGoal}
             selectedSticker={props.selectedSticker}
             goals={props.goals}

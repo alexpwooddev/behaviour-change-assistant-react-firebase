@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types';
 import {
   format,
   startOfWeek,
@@ -7,6 +8,7 @@ import {
   endOfMonth,
   addDays,
 } from "date-fns";
+
 import "./CellRows.css";
 import Cell from "./Cell";
 
@@ -89,5 +91,15 @@ const CellRows = (props) => {
     </>
   );
 };
+
+CellRows.propTypes = {
+  selectedMonth: PropTypes.instanceOf(Date).isRequired,
+  selectedSticker: PropTypes.string.isRequired,
+  goals: PropTypes.array.isRequired,
+  stickers: PropTypes.array.isRequired,
+  selectedGoal: PropTypes.string.isRequired,
+  modifyStickers: PropTypes.func.isRequired,
+  getCurrentGoalProgress: PropTypes.func.isRequired,
+}
 
 export default CellRows;

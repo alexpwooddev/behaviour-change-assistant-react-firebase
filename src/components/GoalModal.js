@@ -1,4 +1,6 @@
 import React, { useState, useContext } from "react";
+import PropTypes from 'prop-types';
+
 import { Text, LanguageContext } from '../containers/Language';
 import "./GoalModal.css";
 import GeneralModal from "./GeneralModal";
@@ -224,5 +226,11 @@ const GoalModal = (props) => {
     </div>
   );
 };
+
+GoalModal.propTypes = {
+  addNewGoal: PropTypes.func.isRequired,
+  hideOrShowGoalModal: PropTypes.func.isRequired,
+  goals: PropTypes.array.isRequired,
+}
 
 export default GoalModal;
