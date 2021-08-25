@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import PropTypes from 'prop-types';
 
 import "./Calendar.css";
@@ -7,10 +7,6 @@ import DaysHeader from "./DaysHeader";
 import CellRows from "./CellRows";
 
 const Calendar = (props) => {
-  useEffect(() => {
-    console.log('render Calendar');
-  });
-  
   return (
     <div className="calendar-col">
       <div className="calendar">
