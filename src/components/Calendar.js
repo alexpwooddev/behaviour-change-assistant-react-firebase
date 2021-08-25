@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from 'prop-types';
 
 import "./Calendar.css";
@@ -7,6 +7,10 @@ import DaysHeader from "./DaysHeader";
 import CellRows from "./CellRows";
 
 const Calendar = (props) => {
+  useEffect(() => {
+    console.log('render Calendar');
+  });
+  
   return (
     <div className="calendar-col">
       <div className="calendar">
@@ -23,10 +27,11 @@ const Calendar = (props) => {
         </div>
         <div>
           <CellRows
+            atLeastOneGoalExists={props.atLeastOneGoalExists}
             selectedMonth={props.selectedMonth}
             selectedGoal={props.selectedGoal}
+            selectedGoalRecord={props.selectedGoalRecord}
             selectedSticker={props.selectedSticker}
-            goals={props.goals}
             stickers={props.stickers}
             modifyStickers={props.modifyStickers}
             getCurrentGoalProgress={props.getCurrentGoalProgress}
@@ -38,9 +43,9 @@ const Calendar = (props) => {
 };
 
 Calendar.propTypes = {
-  goals: PropTypes.array.isRequired,
   stickers: PropTypes.array.isRequired,
   selectedGoal: PropTypes.string.isRequired,
+  selectedGoalRecord: PropTypes.array.isRequired,
   selectedMonth: PropTypes.instanceOf(Date).isRequired,
   selectedSticker: PropTypes.string.isRequired,
   prevMonth: PropTypes.func.isRequired,

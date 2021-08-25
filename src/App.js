@@ -107,6 +107,12 @@ function App() {
   -----LOGIC ON STATE------
   --------------------------------- */
 
+  const atLeastOneGoalExists = state.goals.length > 0;
+
+  const selectedGoalRecord = state.goals.filter(
+    (goal) => goal[0].toLowerCase() === selectedGoal.toLowerCase()
+  );
+
   const goalDuplicateCheck = (goal) => {
     const goalDuplicate = state.goals.filter(goalRecord => goalRecord[0] === goal[0]);
     const goalDupliacteExists = goalDuplicate.length > 0;
@@ -176,9 +182,10 @@ function App() {
             handleGoalDeletion={handleGoalDeletion}
           />
           <Calendar
-            goals={state.goals}
+            atLeastOneGoalExists={atLeastOneGoalExists}
             stickers={state.stickers}
             selectedGoal={selectedGoal}
+            selectedGoalRecord={selectedGoalRecord}
             selectedMonth={state.selectedMonth}
             selectedSticker={state.selectedSticker}
             prevMonth={prevMonth}
