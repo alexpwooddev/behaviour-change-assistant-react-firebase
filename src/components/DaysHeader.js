@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import PropTypes from 'prop-types';
 
 import { LanguageContext } from '../containers/Language';
 import './DaysHeader.css';
@@ -20,5 +21,9 @@ const DaysHeader = (props) => {
    }
    return <div className="days row">{days}</div>;
  };
+
+ DaysHeader.propTypes = {
+   selectedMonth: PropTypes.instanceOf(Date).isRequired,
+ }
 
  export default DaysHeader

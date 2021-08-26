@@ -1,4 +1,6 @@
 import React from "react";
+import PropTypes from 'prop-types';
+
 import "./Calendar.css";
 import MonthHeader from "./MonthHeader";
 import DaysHeader from "./DaysHeader";
@@ -21,11 +23,11 @@ const Calendar = (props) => {
         </div>
         <div>
           <CellRows
+            atLeastOneGoalExists={props.atLeastOneGoalExists}
             selectedMonth={props.selectedMonth}
-            onDateClick={props.onDateClick}
             selectedGoal={props.selectedGoal}
+            selectedGoalRecord={props.selectedGoalRecord}
             selectedSticker={props.selectedSticker}
-            goals={props.goals}
             stickers={props.stickers}
             modifyStickers={props.modifyStickers}
             getCurrentGoalProgress={props.getCurrentGoalProgress}
@@ -35,5 +37,17 @@ const Calendar = (props) => {
     </div>
   );
 };
+
+Calendar.propTypes = {
+  stickers: PropTypes.array.isRequired,
+  selectedGoal: PropTypes.string.isRequired,
+  selectedGoalRecord: PropTypes.array.isRequired,
+  selectedMonth: PropTypes.instanceOf(Date).isRequired,
+  selectedSticker: PropTypes.string.isRequired,
+  prevMonth: PropTypes.func.isRequired,
+  nextMonth: PropTypes.func.isRequired,
+  modifyStickers: PropTypes.func.isRequired,
+  getCurrentGoalProgress: PropTypes.func.isRequired,
+}
 
 export default Calendar;

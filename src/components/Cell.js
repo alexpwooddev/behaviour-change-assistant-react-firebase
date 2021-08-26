@@ -1,6 +1,9 @@
 import React, { useState, useContext } from "react";
+import PropTypes from 'prop-types';
 import { isSameMonth } from "date-fns";
-import { createStickerRecord } from "../Factories/createStickerRecord.js";
+
+import { checkIfGoalAchievedOnThisClick } from "../utils/checkIfGoalAchievedOnThisClick.js";
+import { handleCellClick } from "../utils/handleCellClick.js";
 import { LanguageContext } from '../containers/Language';
 import Sticker from "./Sticker";
 import AchievementModal from "./AchievementModal";
@@ -13,6 +16,7 @@ const Cell = (props) => {
   const [showAchievementModal, toggleAchievementModal] = useState(false);
   const [showFutureErrorModal, toggleFutureErrorModal] = useState(false);
   const { dictionary } = useContext(LanguageContext);
+  
   const date = props.day.getDate();
   const isCurrentMonth = isSameMonth(props.day, props.monthStart);
   const futureClass = props.isFutureDayThisMonth ? 'future-cell' : '';
@@ -46,51 +50,10 @@ const Cell = (props) => {
     }
   });
 
-  const handleCellClick = (e) => {
-    if (showAchievementModal || showFutureErrorModal) return;
-    
-    const targetedCell = e.target.closest("div");
-    const stickerAlreadyExists = targetedCell.childNodes.length > 1;
-    const onGoalDay = targetedCell.classList.contains("goalDay") ? true : false;
-    const isFutureDay = targetedCell.classList.contains('future-cell');
-
-    if (isFutureDay) {
-      hideOrShowFutureErrorModal();
-      return;
-    }
-
-    //remove existing stickers
-    if (stickerAlreadyExists) {
-      let newStickersArray = Array.from(props.stickers);
-      newStickersArray.splice(
-        newStickersArray.findIndex(
-          (record) => record["uuid"] === targetedCell.dataset.uuid
-        ),
-        1
-      );
-
-      props.modifyStickers(newStickersArray);
-    } else {
-      //add new sticker
-      let stickerRecordToAdd = createStickerRecord(
-        props.selectedMonth.getFullYear(),
-        props.selectedMonth.getMonth(),
-        parseInt(targetedCell.firstChild.textContent),
-        props.selectedSticker,
-        props.selectedGoal,
-        onGoalDay
-      );
-
-      let newStickersArray = Array.from(props.stickers);
-      newStickersArray.push(stickerRecordToAdd);
-      props.modifyStickers(newStickersArray);
-
-      handlePossibleAchievement(newStickersArray);
-    }
-  };
-
   const handlePossibleAchievement = (stickersArray) => {
-    let newAchievement = checkIfGoalAchievedOnThisClick(stickersArray);
+    let totalStickersCurrentMonth = props.getCurrentGoalProgress(stickersArray).stickersCurrentMonth;
+    let totalGoalDaysCurrentMonth = props.getCurrentGoalProgress(props.stickers).totalGoalDaysCurrentMonth;
+    let newAchievement = checkIfGoalAchievedOnThisClick(stickersArray, totalStickersCurrentMonth, totalGoalDaysCurrentMonth, props.cellClass);
     setAchievement(newAchievement);
 
     let achievementMessages = {
@@ -111,43 +74,6 @@ const Cell = (props) => {
     }
   };
 
-  function checkIfGoalAchievedOnThisClick(stickersArray) {
-    let totalStickersCurrentMonth = props.getCurrentGoalProgress(stickersArray).stickersCurrentMonth;
-    let currentProgress = props.getCurrentGoalProgress(props.stickers);
-    let totalGoalDaysCurrentMonth = currentProgress.totalGoalDaysCurrentMonth;
-
-    const achievementCheckFuncs = [];
-    achievementCheckFuncs.push(
-      [
-        fullMonthComplete,
-        [totalStickersCurrentMonth, totalGoalDaysCurrentMonth],
-      ],
-      [fiveDaysCompleted, [totalStickersCurrentMonth]],
-      [nonGoalDayCompleted, []]
-    );
-
-    const achievementCheckFuncReturns = achievementCheckFuncs.map((func) =>
-      func[0](...func[1])
-    );
-
-    return achievementCheckFuncReturns.find(
-      (returnValue) => typeof returnValue !== "undefined"
-    );
-
-    function nonGoalDayCompleted() {
-      if (props.cellClass === "nonGoalDay") return "nonGoalDay";
-    }
-    function fiveDaysCompleted(totalStickersCurrentMonth) {
-      if (totalStickersCurrentMonth === 5 && props.cellClass === "goalDay" ) return "5Days";
-    }
-    function fullMonthComplete(
-      totalStickersCurrentMonth,
-      totalGoalDaysCurrentMonth
-    ) {
-      if (totalStickersCurrentMonth === totalGoalDaysCurrentMonth && props.cellClass === "goalDay")
-        return "fullMonth";
-    }
-  }
 
   return (
     <div
@@ -156,7 +82,7 @@ const Cell = (props) => {
         !isSameMonth(props.day, props.monthStart) ? "disabled" : ""
       } ${props.cellClass} ${futureClass}`}
       key={props.day}
-      onClick={handleCellClick}
+      onClick={(e) => handleCellClick(e, showAchievementModal, showFutureErrorModal, hideOrShowFutureErrorModal, props.modifyStickers, handlePossibleAchievement, props.selectedMonth, props.selectedSticker, props.selectedGoal, props.stickers)}
       data-uuid={stickerRecord ? stickerRecord.uuid : ""}
     >
       <span className="number">{props.formattedDate}</span>
@@ -179,5 +105,20 @@ const Cell = (props) => {
     </div>
   );
 };
+
+Cell.propTypes = {
+  isFutureDayThisMonth: PropTypes.bool.isRequired,
+  backgroundColor: PropTypes.string.isRequired,
+  day: PropTypes.instanceOf(Date).isRequired,
+  monthStart: PropTypes.instanceOf(Date).isRequired,
+  selectedMonth: PropTypes.instanceOf(Date).isRequired,
+  selectedGoal: PropTypes.string.isRequired,
+  selectedSticker: PropTypes.string.isRequired,
+  formattedDate: PropTypes.string.isRequired,
+  stickers: PropTypes.array.isRequired,
+  cellClass: PropTypes.string.isRequired,
+  modifyStickers: PropTypes.func.isRequired,
+  getCurrentGoalProgress: PropTypes.func.isRequired,
+}
 
 export default Cell;

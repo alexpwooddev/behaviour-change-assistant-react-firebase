@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types';
 import {
   format,
   startOfWeek,
@@ -7,6 +8,7 @@ import {
   endOfMonth,
   addDays,
 } from "date-fns";
+
 import "./CellRows.css";
 import Cell from "./Cell";
 
@@ -26,17 +28,11 @@ const CellRows = (props) => {
   while (day <= endDate) {
     for (let i = 0; i < 7; i++) {
       formattedDate = format(day, dateFormat);
-      let selectedGoalRecord;
       let backgroundColor;
       let cellClass;
-      let atLeastOneGoalExists = props.goals.length > 0;
 
-      if (atLeastOneGoalExists) {
-        selectedGoalRecord = props.goals.filter(
-          (goal) => goal[0].toLowerCase() === props.selectedGoal.toLowerCase()
-        );
-
-        let selectedGoalTargetDays = selectedGoalRecord[0][1].map((record) =>
+      if (props.atLeastOneGoalExists) {
+        let selectedGoalTargetDays = props.selectedGoalRecord[0][1].map((record) =>
           record.slice(0, 3).toLowerCase()
         );
         let currentDayToRenderAbbreviated = day
@@ -45,7 +41,7 @@ const CellRows = (props) => {
           .toLowerCase();
 
         if (selectedGoalTargetDays.includes(currentDayToRenderAbbreviated)) {
-          backgroundColor = selectedGoalRecord[0][2];
+          backgroundColor = props.selectedGoalRecord[0][2];
           cellClass = "goalDay";
         } else {
           backgroundColor = "white";
@@ -89,5 +85,15 @@ const CellRows = (props) => {
     </>
   );
 };
+
+CellRows.propTypes = {
+  selectedMonth: PropTypes.instanceOf(Date).isRequired,
+  selectedSticker: PropTypes.string.isRequired,
+  stickers: PropTypes.array.isRequired,
+  selectedGoal: PropTypes.string.isRequired,
+  selectedGoalRecord: PropTypes.array.isRequired,
+  modifyStickers: PropTypes.func.isRequired,
+  getCurrentGoalProgress: PropTypes.func.isRequired,
+}
 
 export default CellRows;

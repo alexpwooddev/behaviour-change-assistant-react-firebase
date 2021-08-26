@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-
+import PropTypes from 'prop-types';
 import { LanguageContext } from '../containers/Language';
 
 import HeaderAndButton from "./HeaderAndButton";
@@ -69,5 +69,17 @@ const GoalsContainer = (props) => {
     </div>
   );
 };
+
+GoalsContainer.propTypes = {
+  goals: PropTypes.array.isRequired,
+  stickers: PropTypes.array.isRequired,
+  selectedGoal: PropTypes.string.isRequired,
+  selectedSticker: PropTypes.string.isRequired,
+  selectedMonth: PropTypes.instanceOf(Date).isRequired,
+  addNewGoal: PropTypes.func.isRequired,
+  handleSelectedGoalChange: PropTypes.func.isRequired,
+  handleSelectedStickerChange: PropTypes.func.isRequired,
+  handleGoalDeletion: PropTypes.func.isRequired,
+}
 
 export default GoalsContainer;
