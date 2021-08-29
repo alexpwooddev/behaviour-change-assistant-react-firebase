@@ -1,6 +1,6 @@
 import { createStickerRecord } from "../Factories/createStickerRecord.js";
 
-export const handleCellClick = (e, showAchievementModal, showFutureErrorModal, hideOrShowFutureErrorModal, modifyStickers, handlePossibleAchievement, selectedMonth, selectedSticker, selectedGoal, stickers) => {
+export const handleCellClick = (e, showAchievementModal, showFutureErrorModal, hideOrShowFutureErrorModal, modifyStickers, handlePossibleAchievement, selectedMonth, selectedSticker, selectedGoal, stickers, cellClass) => {
     if (showAchievementModal || showFutureErrorModal) return;
     
     const targetedCell = e.target.closest("div");
@@ -39,6 +39,6 @@ export const handleCellClick = (e, showAchievementModal, showFutureErrorModal, h
       newStickersArray.push(stickerRecordToAdd);
       modifyStickers(newStickersArray);
 
-      handlePossibleAchievement(newStickersArray);
+      handlePossibleAchievement(newStickersArray, cellClass);
     }
   };

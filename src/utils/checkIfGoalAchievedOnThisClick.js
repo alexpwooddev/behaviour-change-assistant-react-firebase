@@ -1,9 +1,12 @@
 export function checkIfGoalAchievedOnThisClick(
+  getCurrentGoalProgress,
   stickersArray,
-  totalStickersCurrentMonth,
-  totalGoalDaysCurrentMonth,
   cellClass
 ) {
+  let totalStickersCurrentMonth =
+    getCurrentGoalProgress(stickersArray).stickersCurrentMonth;
+  let totalGoalDaysCurrentMonth =
+    getCurrentGoalProgress(stickersArray).totalGoalDaysCurrentMonth;
   const achievementCheckFuncs = [];
   achievementCheckFuncs.push(
     [fullMonthComplete, [totalStickersCurrentMonth, totalGoalDaysCurrentMonth]],
