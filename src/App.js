@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext, useReducer } from "react";
+import React, { useEffect, useState, useContext, useReducer, useCallback } from "react";
 
 import Calendar from "./components/Calendar";
 import Footer from "./components/Footer";
@@ -124,7 +124,7 @@ function App() {
     }
   }
 
-  function getCurrentGoalProgress(stickersArray) {
+  const getCurrentGoalProgress = useCallback((stickersArray) => {
     if (state.goals.length === 0) {
       return {
         stickersCurrentMonth: 0,
@@ -163,7 +163,17 @@ function App() {
       stickersCurrentMonth: stickersOnGoalDays,
       totalGoalDaysCurrentMonth: totalGoalDays,
     };
-  }
+  }, [state.goals, selectedGoal, state.selectedMonth ]);
+
+  const calculatePercentAchieved = useCallback(() => {
+    let currentProgress = getCurrentGoalProgress(state.stickers);
+    let stickersCurrentMonth = currentProgress.stickersCurrentMonth;
+    let totalGoalDaysCurrentMonth = currentProgress.totalGoalDaysCurrentMonth;
+    let percentAchieved = selectedGoal
+      ? parseFloat(stickersCurrentMonth / totalGoalDaysCurrentMonth)
+      : 0;
+    return percentAchieved;
+  }, [state.stickers, selectedGoal, getCurrentGoalProgress]);
 
 
   return (
@@ -194,9 +204,7 @@ function App() {
             getCurrentGoalProgress={getCurrentGoalProgress}
           />
           <ProgressBar 
-            selectedGoal={selectedGoal}
-            stickers={state.stickers}
-            getCurrentGoalProgress={getCurrentGoalProgress}
+            percentAchieved={calculatePercentAchieved()}
           />
           <StorageWarning />
           <Footer />
