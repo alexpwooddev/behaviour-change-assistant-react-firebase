@@ -1,5 +1,5 @@
-function readGoalsFromLocal(target) {
-    let localRead = JSON.parse(localStorage.getItem(target));
+function readGoalsFromLocal() {
+    let localRead = JSON.parse(localStorage.getItem('goalsRecord'));
     if (localRead != null) {
         return localRead;
     } else {
@@ -7,8 +7,8 @@ function readGoalsFromLocal(target) {
     }
 }
 
-function readStickersFromLocal(target) {
-    let localRead = JSON.parse(localStorage.getItem(target));
+function readStickersFromLocal() {
+    let localRead = JSON.parse(localStorage.getItem('stickersAndDatesRecord'));
     if (localRead != null) {
         return localRead;
     } else {

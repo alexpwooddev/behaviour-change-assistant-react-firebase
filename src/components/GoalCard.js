@@ -1,5 +1,8 @@
 import React, { useState, useContext } from "react";
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+
+import { setSelectedSticker, setStickers } from '../features/stickers/stickersSlice';
 import { Text, LanguageContext } from '../containers/Language';
 import "./GoalCard.css";
 import DeleteModal from "./DeleteModal";
@@ -8,8 +11,10 @@ import DeleteModal from "./DeleteModal";
 const GoalCard = (props) => {
   const [showDeleteModal, toggleDeleteModal] = useState(false);
   const { dictionary } = useContext(LanguageContext);
+  const dispatch = useDispatch();
+  const stickers = useSelector(state => state.stickers.stickers);
   
-  const deleteGoal = (e) => {
+  const deleteGoal = async (e) => {
     e.stopPropagation();
     
     hideOrShowDeleteModal();
@@ -17,11 +22,23 @@ const GoalCard = (props) => {
     let newGoalsArray = Array.from(props.goals);
     newGoalsArray.splice(newGoalsArray.findIndex(goalArr => goalArr[0].toLowerCase() === goalTitleToRemove.toLowerCase()), 1);
 
-    let newStickersArray = Array.from(props.stickers);
+    let newStickersArray = Array.from(stickers);
     newStickersArray = newStickersArray.filter(stickerObj => stickerObj["goal"].toLowerCase() !== goalTitleToRemove.toLowerCase());
+
+    await dispatch(setStickers(newStickersArray));
 
     props.handleGoalDeletion(newGoalsArray, newStickersArray);
   };
+
+  const handleCardClick = async () => {
+    const lastStickerThisGoalAndMonth = props.handleSelectedGoalChange(props.goal[0]);
+
+    if (lastStickerThisGoalAndMonth) {
+      await dispatch(setSelectedSticker(lastStickerThisGoalAndMonth["sticker"]));
+    } else {
+      await dispatch(setSelectedSticker("monkey"));
+    }
+  }
 
   const hideOrShowDeleteModal = () => {
     toggleDeleteModal(!showDeleteModal);
@@ -48,7 +65,7 @@ const GoalCard = (props) => {
       data-goal={props.goal[0]}
       className={className}
       style={{ backgroundColor: `${props.goal[2]}` }}
-      onClick={() => props.handleSelectedGoalChange(props.goal[0])}
+      onClick={handleCardClick}
       >
 
           <p><Text tid="goalCardText1"/>, {props.goal[3]}, <Text tid="goalCardText2"/> <span className="goalText">{props.goal[0]}</span> <Text tid="goalCardText3"/>:</p><hr /> <p>{goalDays.join(', ')}.</p>
@@ -78,7 +95,6 @@ const GoalCard = (props) => {
 GoalCard.propTypes = {
   goal: PropTypes.array.isRequired,
   goals: PropTypes.array.isRequired,
-  stickers: PropTypes.array.isRequired,
   handleSelectedGoalChange: PropTypes.func.isRequired,
   handleGoalDeletion: PropTypes.func.isRequired,
   selectedGoal: PropTypes.string.isRequired,

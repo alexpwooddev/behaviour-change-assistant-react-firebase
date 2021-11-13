@@ -28,10 +28,8 @@ const Calendar = (props) => {
             selectedMonth={props.selectedMonth}
             selectedGoal={props.selectedGoal}
             selectedGoalRecord={props.selectedGoalRecord}
-            selectedSticker={props.selectedSticker}
-            stickers={props.stickers}
-            modifyStickers={props.modifyStickers}
             getCurrentGoalProgress={props.getCurrentGoalProgress}
+            hideOrShowNoGoalsModal={props.hideOrShowNoGoalsModal}
           />
         </div>
       </div>
@@ -40,15 +38,13 @@ const Calendar = (props) => {
 };
 
 Calendar.propTypes = {
-  stickers: PropTypes.array.isRequired,
   selectedGoal: PropTypes.string.isRequired,
   selectedGoalRecord: PropTypes.array.isRequired,
   selectedMonth: PropTypes.instanceOf(Date).isRequired,
-  selectedSticker: PropTypes.string.isRequired,
   prevMonth: PropTypes.func.isRequired,
   nextMonth: PropTypes.func.isRequired,
-  modifyStickers: PropTypes.func.isRequired,
   getCurrentGoalProgress: PropTypes.func.isRequired,
+  hideOrShowNoGoalsModal: PropTypes.func.isRequired,
 }
 
 export default Calendar;

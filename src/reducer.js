@@ -14,18 +14,6 @@ export const reducer = (state, action) => {
         goals: action.payload,
       }
     }
-    if (action.type === "SET_STICKERS") {
-      return {
-        ...state,
-        stickers: action.payload,
-      }
-    }
-    if (action.type === "SET_SELECTED_STICKER") {
-      return {
-        ...state,
-        selectedSticker: action.payload,
-      }
-    }
     if (action.type === "SET_SELECTED_MONTH") {
       let newSelectedMonth;
       if (action.payload === "add") {

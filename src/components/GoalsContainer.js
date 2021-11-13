@@ -37,7 +37,6 @@ const GoalsContainer = (props) => {
             key={id}
             goal={goal}
             goals={props.goals}
-            stickers={props.stickers}
             handleSelectedGoalChange={props.handleSelectedGoalChange}
             handleGoalDeletion={props.handleGoalDeletion}
             selectedGoal={props.selectedGoal}
@@ -47,10 +46,8 @@ const GoalsContainer = (props) => {
       {props.selectedGoal && (
         <StickerSelector
           selectedGoal={props.selectedGoal}
-          stickers={props.stickers}
           selectedMonth={props.selectedMonth}
           handleSelectedStickerChange={props.handleSelectedStickerChange}
-          selectedSticker={props.selectedSticker}
         />
       )}
       {showGoalModal && (
@@ -72,9 +69,7 @@ const GoalsContainer = (props) => {
 
 GoalsContainer.propTypes = {
   goals: PropTypes.array.isRequired,
-  stickers: PropTypes.array.isRequired,
   selectedGoal: PropTypes.string.isRequired,
-  selectedSticker: PropTypes.string.isRequired,
   selectedMonth: PropTypes.instanceOf(Date).isRequired,
   addNewGoal: PropTypes.func.isRequired,
   handleSelectedGoalChange: PropTypes.func.isRequired,

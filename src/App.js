@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useContext, useReducer, useCallback } from "react";
+import { useSelector, useDispatch } from 'react-redux';
 
 import Calendar from "./components/Calendar";
 import Footer from "./components/Footer";
@@ -10,15 +11,13 @@ import ProgressBar from "./components/ProgressBar";
 import { reducer } from './reducer';
 import StorageWarning from "./components/StorageWarning";
 import { targetDaysInMonthYear } from "./utils/targetDaysInMonthYear";
-
 import "./App.css";
 import * as dataHelper from './dataHelper.js';
+import { setSelectedSticker, fetchStickersOnStart }  from './features/stickers/stickersSlice';
 
 
 const defaultState = {
-  goals: dataHelper.readGoalsFromLocal('goalsRecord'),
-  stickers: dataHelper.readStickersFromLocal('stickersAndDatesRecord'),
-  selectedSticker: "monkey",
+  goals: dataHelper.readGoalsFromLocal(),
   selectedMonth: new Date(),
   showGoalDuplicateModal: false,
   showNoGoalsModal: false,
@@ -26,16 +25,18 @@ const defaultState = {
 
 function App() {
   const [state, dispatch] = useReducer(reducer, defaultState);
+  const stickers = useSelector(state => state.stickers.stickers);
   const [selectedGoal, setSelectedGoal] = useState(state.goals.length > 0 ? state.goals[0][0] : "");
   const { dictionary } = useContext(LanguageContext);
+  const dispatchRedux = useDispatch();
 
   useEffect(() => {
     dataHelper.createToLocalStorage('goalsRecord', state.goals);
   }, [state.goals]);
 
   useEffect(() => {
-    dataHelper.createToLocalStorage('stickersAndDatesRecord', state.stickers);
-  }, [state.stickers]);
+    dispatchRedux(fetchStickersOnStart());
+  }, []);
 
 
   /* -----------------------------
@@ -51,16 +52,7 @@ function App() {
   };
 
   const handleSelectedStickerChange = (sticker) => {
-    dispatch({type: "SET_SELECTED_STICKER", payload: sticker})
-  };
-
-  const modifyStickers = (stickersArray) => {  
-    const noGoalsExist = state.goals.length > 0 ? false : true;
-    if (noGoalsExist) {
-      hideOrShowNoGoalsModal();
-      return;
-    }
-    dispatch({type: "SET_STICKERS", payload: stickersArray});
+    dispatchRedux(setSelectedSticker(sticker));
   };
 
   const nextMonth = () => {
@@ -78,10 +70,8 @@ function App() {
     setSelectedGoal(goal[0]);
   };
 
-  const handleGoalDeletion = (newGoals, newStickers) => {
+  const handleGoalDeletion = (newGoals) => {
     dispatch({type:"SET_GOALS", payload: newGoals});
-
-    modifyStickers(newStickers);
 
     let newSelectedGoal = newGoals.length === 0 ? "" : newGoals[0][0];
     setSelectedGoal(newSelectedGoal);
@@ -90,16 +80,12 @@ function App() {
   const handleSelectedGoalChange = (goal) => {
     setSelectedGoal(goal);
 
-    const lastStickerThisGoalAndMonth = state.stickers
+    const lastStickerThisGoalAndMonth = stickers
       .filter((obj) => obj["month"] === state.selectedMonth.getMonth())
       .filter((obj) => obj["goal"] === goal)
       .pop();
 
-    if (lastStickerThisGoalAndMonth) {
-      handleSelectedStickerChange(lastStickerThisGoalAndMonth["sticker"]);
-    } else {
-      handleSelectedStickerChange("monkey");
-    }
+    return lastStickerThisGoalAndMonth
   };
 
 
@@ -166,14 +152,14 @@ function App() {
   }, [state.goals, selectedGoal, state.selectedMonth ]);
 
   const calculatePercentAchieved = useCallback(() => {
-    let currentProgress = getCurrentGoalProgress(state.stickers);
+    let currentProgress = getCurrentGoalProgress(stickers);
     let stickersCurrentMonth = currentProgress.stickersCurrentMonth;
     let totalGoalDaysCurrentMonth = currentProgress.totalGoalDaysCurrentMonth;
     let percentAchieved = selectedGoal
       ? parseFloat(stickersCurrentMonth / totalGoalDaysCurrentMonth)
       : 0;
     return percentAchieved;
-  }, [state.stickers, selectedGoal, getCurrentGoalProgress]);
+  }, [stickers, selectedGoal, getCurrentGoalProgress]);
 
 
   return (
@@ -183,25 +169,21 @@ function App() {
           <GoalsContainer
             goals={state.goals}
             addNewGoal={addNewGoal}
-            stickers={state.stickers}
             selectedGoal={selectedGoal}
             handleSelectedGoalChange={handleSelectedGoalChange}
             selectedMonth={state.selectedMonth}
             handleSelectedStickerChange={handleSelectedStickerChange}
-            selectedSticker={state.selectedSticker}
             handleGoalDeletion={handleGoalDeletion}
           />
           <Calendar
             atLeastOneGoalExists={atLeastOneGoalExists}
-            stickers={state.stickers}
             selectedGoal={selectedGoal}
             selectedGoalRecord={selectedGoalRecord}
             selectedMonth={state.selectedMonth}
-            selectedSticker={state.selectedSticker}
             prevMonth={prevMonth}
             nextMonth={nextMonth}
-            modifyStickers={modifyStickers}
             getCurrentGoalProgress={getCurrentGoalProgress}
+            hideOrShowNoGoalsModal={hideOrShowNoGoalsModal}
           />
           <ProgressBar 
             percentAchieved={calculatePercentAchieved()}

@@ -1,5 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
+import stickersReducer from '../features/stickers/stickersSlice';
 
 export default configureStore({
-    reducer: {}
+    reducer: {
+        stickers: stickersReducer,
+    }
 });
