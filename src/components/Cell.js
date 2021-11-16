@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from "prop-types";
-import { isSameMonth } from "date-fns";
+import { isSameMonth, parseISO } from "date-fns";
 
 import { checkIfGoalAchievedOnThisClick } from "../utils/checkIfGoalAchievedOnThisClick.js";
 import { LanguageContext } from "../containers/Language";
@@ -18,8 +18,10 @@ const Cell = (props) => {
   const [showAchievementModal, toggleAchievementModal] = useState(false);
   const [showFutureErrorModal, toggleFutureErrorModal] = useState(false);
   const { dictionary } = useContext(LanguageContext);
+
   const stickers = useSelector(state => state.stickers.stickers);
   const selectedSticker = useSelector(state => state.stickers.selectedSticker);
+  const selectedMonth = parseISO(useSelector(state => state.stickers.selectedMonth));
   const dispatchRedux = useDispatch();
 
   const date = props.day.getDate();
@@ -39,8 +41,8 @@ const Cell = (props) => {
   function getStickerRecord(stickers) {
     stickers.forEach((record) => {
       if (
-        record["year"] === props.selectedMonth.getFullYear() &&
-        record["month"] === props.selectedMonth.getMonth() &&
+        record["year"] === selectedMonth.getFullYear() &&
+        record["month"] === selectedMonth.getMonth() &&
         record["date"] === date &&
         isCurrentMonth &&
         record["goal"] === props.selectedGoal
@@ -118,8 +120,8 @@ const Cell = (props) => {
     } else {
       //add new sticker
       let stickerRecordToAdd = createStickerRecord(
-        props.selectedMonth.getFullYear(),
-        props.selectedMonth.getMonth(),
+        selectedMonth.getFullYear(),
+        selectedMonth.getMonth(),
         parseInt(targetedCell.firstChild.textContent),
         selectedSticker,
         props.selectedGoal,
@@ -172,7 +174,6 @@ Cell.propTypes = {
   backgroundColor: PropTypes.string,
   day: PropTypes.instanceOf(Date).isRequired,
   monthStart: PropTypes.instanceOf(Date).isRequired,
-  selectedMonth: PropTypes.instanceOf(Date).isRequired,
   selectedGoal: PropTypes.string.isRequired,
   formattedDate: PropTypes.string.isRequired,
   cellClass: PropTypes.string,

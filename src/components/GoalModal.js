@@ -30,6 +30,19 @@ const GoalModal = (props) => {
     false,
   ]);
 
+  const goalDuplicateCheck = (newGoal) => {
+    const goalDuplicate = props.goals.filter(
+      (goalRecord) => goalRecord[0] === newGoal[0]
+    );
+    const goalDupliacteExists = goalDuplicate.length > 0;
+    if (goalDupliacteExists) {
+      props.hideOrShowGoalDuplicateModal();
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   const hideOrShowCheckedDaysModal = (e = undefined) => {
     if (e) {
       e.stopPropagation();
@@ -59,6 +72,8 @@ const GoalModal = (props) => {
     });
     let goalDays = goalDaysIndexes.map((index) => dayToIndexMapper[index]);
     let newGoal = [goalInput, goalDays, colourInput, nameInput];
+
+    if (goalDuplicateCheck(newGoal)) return;
 
     props.addNewGoal(newGoal);
     props.hideOrShowGoalModal();
@@ -230,6 +245,7 @@ const GoalModal = (props) => {
 GoalModal.propTypes = {
   addNewGoal: PropTypes.func.isRequired,
   hideOrShowGoalModal: PropTypes.func.isRequired,
+  hideOrShowGoalDuplicateModal: PropTypes.func.isRequired,
   goals: PropTypes.array.isRequired,
 }
 

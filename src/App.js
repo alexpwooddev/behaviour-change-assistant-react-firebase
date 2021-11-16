@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext, useReducer, useCallback } from "react";
 import { useSelector, useDispatch } from 'react-redux';
+import { parseISO } from "date-fns";
 
 import Calendar from "./components/Calendar";
 import Footer from "./components/Footer";
@@ -18,15 +19,17 @@ import { setSelectedSticker, fetchStickersOnStart }  from './features/stickers/s
 
 const defaultState = {
   goals: dataHelper.readGoalsFromLocal(),
-  selectedMonth: new Date(),
   showGoalDuplicateModal: false,
   showNoGoalsModal: false,
 }
 
 function App() {
   const [state, dispatch] = useReducer(reducer, defaultState);
-  const stickers = useSelector(state => state.stickers.stickers);
   const [selectedGoal, setSelectedGoal] = useState(state.goals.length > 0 ? state.goals[0][0] : "");
+
+  const stickers = useSelector(state => state.stickers.stickers);
+  const selectedMonth = parseISO(useSelector(state => state.stickers.selectedMonth));
+
   const { dictionary } = useContext(LanguageContext);
   const dispatchRedux = useDispatch();
 
@@ -36,7 +39,7 @@ function App() {
 
   useEffect(() => {
     dispatchRedux(fetchStickersOnStart());
-  }, []);
+  }, [dispatchRedux]);
 
 
   /* -----------------------------
@@ -55,17 +58,7 @@ function App() {
     dispatchRedux(setSelectedSticker(sticker));
   };
 
-  const nextMonth = () => {
-    dispatch({type: "SET_SELECTED_MONTH", payload: "add"});
-  };
-
-  const prevMonth = () => {
-    dispatch({type: "SET_SELECTED_MONTH", payload: "subtract"});
-  };
-
-  const addNewGoal = (goal) => {
-    if (goalDuplicateCheck(goal)) return;
-    
+  const addNewGoal = (goal) => {    
     dispatch({type:"ADD_GOAL", payload: goal});
     setSelectedGoal(goal[0]);
   };
@@ -81,7 +74,7 @@ function App() {
     setSelectedGoal(goal);
 
     const lastStickerThisGoalAndMonth = stickers
-      .filter((obj) => obj["month"] === state.selectedMonth.getMonth())
+      .filter((obj) => obj["month"] === selectedMonth.getMonth())
       .filter((obj) => obj["goal"] === goal)
       .pop();
 
@@ -98,17 +91,6 @@ function App() {
   const selectedGoalRecord = state.goals.filter(
     (goal) => goal[0].toLowerCase() === selectedGoal.toLowerCase()
   );
-
-  const goalDuplicateCheck = (goal) => {
-    const goalDuplicate = state.goals.filter(goalRecord => goalRecord[0] === goal[0]);
-    const goalDupliacteExists = goalDuplicate.length > 0;
-    if (goalDupliacteExists) {
-      hideOrShowGoalDuplicateModal();
-      return true;
-    } else {
-      return false;
-    }
-  }
 
   const getCurrentGoalProgress = useCallback((stickersArray) => {
     if (state.goals.length === 0) {
@@ -127,8 +109,8 @@ function App() {
       goalDays = [];
     }
 
-    const currentYear = state.selectedMonth.getFullYear();
-    const currentMonth = state.selectedMonth.getMonth();
+    const currentYear = selectedMonth.getFullYear();
+    const currentMonth = selectedMonth.getMonth();
     const allGoalDayTypeCounts = [];
     goalDays.forEach((goalDay) => {
       allGoalDayTypeCounts.push(
@@ -149,7 +131,7 @@ function App() {
       stickersCurrentMonth: stickersOnGoalDays,
       totalGoalDaysCurrentMonth: totalGoalDays,
     };
-  }, [state.goals, selectedGoal, state.selectedMonth ]);
+  }, [state.goals, selectedGoal, selectedMonth ]);
 
   const calculatePercentAchieved = useCallback(() => {
     let currentProgress = getCurrentGoalProgress(stickers);
@@ -171,17 +153,14 @@ function App() {
             addNewGoal={addNewGoal}
             selectedGoal={selectedGoal}
             handleSelectedGoalChange={handleSelectedGoalChange}
-            selectedMonth={state.selectedMonth}
             handleSelectedStickerChange={handleSelectedStickerChange}
             handleGoalDeletion={handleGoalDeletion}
+            hideOrShowGoalDuplicateModal={hideOrShowGoalDuplicateModal}
           />
           <Calendar
             atLeastOneGoalExists={atLeastOneGoalExists}
             selectedGoal={selectedGoal}
             selectedGoalRecord={selectedGoalRecord}
-            selectedMonth={state.selectedMonth}
-            prevMonth={prevMonth}
-            nextMonth={nextMonth}
             getCurrentGoalProgress={getCurrentGoalProgress}
             hideOrShowNoGoalsModal={hideOrShowNoGoalsModal}
           />

@@ -13,19 +13,14 @@ const Calendar = (props) => {
       <div className="calendar">
         <div>
           {" "}
-          <MonthHeader
-            prevMonth={props.prevMonth}
-            nextMonth={props.nextMonth}
-            selectedMonth={props.selectedMonth}
-          />
+          <MonthHeader />
         </div>
         <div>
-          <DaysHeader selectedMonth={props.selectedMonth} />
+          <DaysHeader />
         </div>
         <div>
           <CellRows
             atLeastOneGoalExists={props.atLeastOneGoalExists}
-            selectedMonth={props.selectedMonth}
             selectedGoal={props.selectedGoal}
             selectedGoalRecord={props.selectedGoalRecord}
             getCurrentGoalProgress={props.getCurrentGoalProgress}
@@ -40,9 +35,6 @@ const Calendar = (props) => {
 Calendar.propTypes = {
   selectedGoal: PropTypes.string.isRequired,
   selectedGoalRecord: PropTypes.array.isRequired,
-  selectedMonth: PropTypes.instanceOf(Date).isRequired,
-  prevMonth: PropTypes.func.isRequired,
-  nextMonth: PropTypes.func.isRequired,
   getCurrentGoalProgress: PropTypes.func.isRequired,
   hideOrShowNoGoalsModal: PropTypes.func.isRequired,
 }

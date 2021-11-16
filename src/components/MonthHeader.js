@@ -1,14 +1,24 @@
 import React, { useContext } from "react";
-import PropTypes from 'prop-types';
-import { format } from "date-fns";
+import { useSelector, useDispatch } from 'react-redux';
+import { format, parseISO } from "date-fns";
 
 import { LanguageContext } from '../containers/Language';
+import { setSelectedMonth } from "../features/stickers/stickersSlice";
 import './MonthHeader.css';
 
 
 const MonthHeader = (props) => {
-   const dateFormat = "MMMM yyyy";
    const { userLanguage } = useContext(LanguageContext);
+
+   const selectedMonth = parseISO(useSelector(state => state.stickers.selectedMonth));
+
+   const dispatch = useDispatch();
+
+   const handleMonthChange = (changeDirection) => {
+      dispatch(setSelectedMonth(changeDirection));
+   }
+
+   const dateFormat = "MMMM yyyy";
    const enSpanMonthsMap = {
       January: "Enero",
       February: "Febrero",
@@ -24,7 +34,7 @@ const MonthHeader = (props) => {
       December: "Diciembre"
    }
 
-   const monthYear = format(props.selectedMonth, dateFormat);
+   const monthYear = format(selectedMonth, dateFormat);
    const monthYearArr = monthYear.split(' ');
    let monthYearDisplay;
 
@@ -38,7 +48,7 @@ const MonthHeader = (props) => {
    return (
       <div className="header row flex-middle">
          <div className="column">
-            <div className="icon" id="icon-left" onClick={props.prevMonth}>
+            <div className="icon" id="icon-left" onClick={() => handleMonthChange("subtract")}>
                chevron_left
             </div>
          </div>
@@ -46,18 +56,12 @@ const MonthHeader = (props) => {
             <span id="month-year">{monthYearDisplay}</span>
          </div>
          <div className="column">
-            <div className="icon" id="icon-right" onClick={props.nextMonth}>
+            <div className="icon" id="icon-right" onClick={() => handleMonthChange("add")}>
                chevron_right
             </div>
          </div>
       </div>
    );
 };
-
-MonthHeader.propTypes = {
-   prevMonth: PropTypes.func.isRequired,
-   nextMonth: PropTypes.func.isRequired,
-   selectedMonth: PropTypes.instanceOf(Date).isRequired,
-}
 
 export default MonthHeader;

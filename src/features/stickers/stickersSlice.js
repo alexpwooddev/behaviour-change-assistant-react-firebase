@@ -1,10 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { addMonths, subMonths, parseISO } from "date-fns";
 
 import * as dataHelper from '../../dataHelper';
 
 const initialState = {
   stickers: [],
   selectedSticker: "monkey",
+  selectedMonth: new Date().toISOString(),
   status: "idle",
 };
 
@@ -30,6 +32,13 @@ export const stickersSlice = createSlice({
   reducers: {
     setSelectedSticker: (state, action) => {
       state.selectedSticker = action.payload;
+    },
+    setSelectedMonth: (state, action) => {
+      if (action.payload === "add") {
+        state.selectedMonth = addMonths(parseISO(state.selectedMonth), 1).toISOString();
+      } else {
+        state.selectedMonth = subMonths(parseISO(state.selectedMonth), 1).toISOString();
+      }
     }
   },
   extraReducers(builder) {
@@ -62,6 +71,6 @@ export const stickersSlice = createSlice({
   },
 });
 
-export const { setSelectedSticker } = stickersSlice.actions;
+export const { setSelectedSticker, setSelectedMonth } = stickersSlice.actions;
 
 export default stickersSlice.reducer;

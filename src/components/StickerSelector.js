@@ -33,7 +33,6 @@ const StickerSelector = (props) => {
 
 StickerSelector.propTypes = {
   selectedGoal: PropTypes.string.isRequired,
-  selectedMonth: PropTypes.instanceOf(Date).isRequired,
   handleSelectedStickerChange: PropTypes.func.isRequired,
 }
 
