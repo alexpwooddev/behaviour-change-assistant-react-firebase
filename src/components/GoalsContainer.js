@@ -39,8 +39,6 @@ const GoalsContainer = (props) => {
             key={id}
             goal={goal}
             goals={props.goals}
-            handleSelectedGoalChange={props.handleSelectedGoalChange}
-            handleGoalDeletion={props.handleGoalDeletion}
             selectedGoal={props.selectedGoal}
           />
         );
@@ -53,7 +51,6 @@ const GoalsContainer = (props) => {
       )}
       {showGoalModal && (
         <GoalModal
-          addNewGoal={props.addNewGoal}
           hideOrShowGoalModal={hideOrShowGoalModal}
           hideOrShowGoalDuplicateModal={props.hideOrShowGoalDuplicateModal}
           goals={props.goals}
@@ -72,11 +69,8 @@ const GoalsContainer = (props) => {
 GoalsContainer.propTypes = {
   goals: PropTypes.array.isRequired,
   selectedGoal: PropTypes.string.isRequired,
-  addNewGoal: PropTypes.func.isRequired,
   hideOrShowGoalDuplicateModal: PropTypes.func.isRequired,
-  handleSelectedGoalChange: PropTypes.func.isRequired,
   handleSelectedStickerChange: PropTypes.func.isRequired,
-  handleGoalDeletion: PropTypes.func.isRequired,
 }
 
 export default GoalsContainer;

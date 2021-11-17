@@ -8,7 +8,6 @@ const initialState = {
   status: "idle",
 };
 
-
 export const fetchGoalsOnStart = createAsyncThunk(
   "goals/fetchGoalsOnStart",
   async () => {
@@ -18,30 +17,36 @@ export const fetchGoalsOnStart = createAsyncThunk(
 );
 
 export const addGoal = createAsyncThunk("goals/addGoal", async (newGoal) => {
-     // dispatch({type:"ADD_GOAL", payload: goal});
-    // setSelectedGoal(goal[0]);
-    
-    //can't be reading state here in the thunk... could prepare the newGoals down
-    //in the component and pass it in here
-    const newGoals = state.goals.push(newGoal);
-    await dataHelper.createToLocalStorage('', newGoals);
-    return newGoals;
+  const newGoals = await dataHelper.createToLocalStorage(
+    "goalsRecord",
+    newGoal,
+    true
+  );
+  return newGoals;
 });
 
-export const deleteGoal = createAsyncThunk();
-
-export const setSelectedGoal = createAsyncThunk();
+export const setGoals = createAsyncThunk("goals/setGoals", async (newGoals) => {
+  const newlyCreatedGoals = await dataHelper.createToLocalStorage(
+    "goalsRecord",
+    newGoals
+  );
+  return newlyCreatedGoals;
+});
 
 export const goalsSlice = createSlice({
   name: "goals",
   initialState,
-  reducers: {},
+  reducers: {
+    setSelectedGoal: (state, action) => {
+      state.selectedGoal = action.payload;
+    }
+  },
   extraReducers(builder) {
     builder
       .addCase(fetchGoalsOnStart.pending, (state) => {
         state.status = "loading";
       })
-      .addCase(fetchGoalsOnStart, (state, action) => {
+      .addCase(fetchGoalsOnStart.fulfilled, (state, action) => {
         state.status = "succeeded";
         const localGoals = action.payload;
         const selectedGoal = localGoals.length > 0 ? localGoals[0][0] : "";
@@ -52,5 +57,33 @@ export const goalsSlice = createSlice({
         state.status = "failed";
         state.error = action.error.message;
       });
+    builder
+      .addCase(addGoal.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(addGoal.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        const newGoals = action.payload;
+        state.goals = newGoals;
+        state.selectedGoal = newGoals[0];
+      })
+      .addCase(addGoal.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+      });
+    builder
+      .addCase(setGoals.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(setGoals.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        const newGoals = action.payload;
+        state.goals = newGoals;
+        state.selectedGoal = newGoals.length === 0 ? "" : newGoals[0][0];
+      })
   },
 });
+
+export const { setSelectedGoal } = goalsSlice.actions;
+
+export default goalsSlice.reducer;

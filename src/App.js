@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext, useReducer, useCallback } from "react";
+import React, { useEffect, useContext, useReducer, useCallback } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { parseISO } from "date-fns";
 
@@ -13,29 +13,33 @@ import { reducer } from './reducer';
 import StorageWarning from "./components/StorageWarning";
 import { targetDaysInMonthYear } from "./utils/targetDaysInMonthYear";
 import "./App.css";
-import * as dataHelper from './dataHelper.js';
 import { setSelectedSticker, fetchStickersOnStart }  from './features/stickers/stickersSlice';
+import { fetchGoalsOnStart } from './features/goals/goalsSlice';
 
 
 const defaultState = {
-  goals: dataHelper.readGoalsFromLocal(),
   showGoalDuplicateModal: false,
   showNoGoalsModal: false,
 }
 
 function App() {
   const [state, dispatch] = useReducer(reducer, defaultState);
-  const [selectedGoal, setSelectedGoal] = useState(state.goals.length > 0 ? state.goals[0][0] : "");
 
+  //not reading Goals or selectedGoals on initial load (hence commented out next line, but line 32 also errors)
+  //what's different from the same thing with stickers? coz that flows just fine.....
+  
+  // const selectedGoal = useSelector(state => state.goals.selectedGoal);
+  const selectedGoal = "meditate"
   const stickers = useSelector(state => state.stickers.stickers);
+  const goals = useSelector(state => state.goals.goals);
   const selectedMonth = parseISO(useSelector(state => state.stickers.selectedMonth));
-
-  const { dictionary } = useContext(LanguageContext);
   const dispatchRedux = useDispatch();
 
+  const { dictionary } = useContext(LanguageContext);
+
   useEffect(() => {
-    dataHelper.createToLocalStorage('goalsRecord', state.goals);
-  }, [state.goals]);
+    dispatchRedux(fetchGoalsOnStart());
+  }, [dispatchRedux]);
 
   useEffect(() => {
     dispatchRedux(fetchStickersOnStart());
@@ -58,42 +62,19 @@ function App() {
     dispatchRedux(setSelectedSticker(sticker));
   };
 
-  const addNewGoal = (goal) => {    
-    dispatch({type:"ADD_GOAL", payload: goal});
-    setSelectedGoal(goal[0]);
-  };
-
-  const handleGoalDeletion = (newGoals) => {
-    dispatch({type:"SET_GOALS", payload: newGoals});
-
-    let newSelectedGoal = newGoals.length === 0 ? "" : newGoals[0][0];
-    setSelectedGoal(newSelectedGoal);
-  };
-
-  const handleSelectedGoalChange = (goal) => {
-    setSelectedGoal(goal);
-
-    const lastStickerThisGoalAndMonth = stickers
-      .filter((obj) => obj["month"] === selectedMonth.getMonth())
-      .filter((obj) => obj["goal"] === goal)
-      .pop();
-
-    return lastStickerThisGoalAndMonth
-  };
-
 
   /* -----------------------------
   -----LOGIC ON STATE------
   --------------------------------- */
 
-  const atLeastOneGoalExists = state.goals.length > 0;
+  const atLeastOneGoalExists = goals.length > 0;
 
-  const selectedGoalRecord = state.goals.filter(
+  const selectedGoalRecord = goals.filter(
     (goal) => goal[0].toLowerCase() === selectedGoal.toLowerCase()
   );
 
   const getCurrentGoalProgress = useCallback((stickersArray) => {
-    if (state.goals.length === 0) {
+    if (goals.length === 0) {
       return {
         stickersCurrentMonth: 0,
         totalGoalDaysCurrentMonth: 0,
@@ -101,8 +82,8 @@ function App() {
     }
 
     let goalDays;
-    if (state.goals.length > 0 && selectedGoal !== "") {
-      goalDays = state.goals.filter(
+    if (goals.length > 0 && selectedGoal !== "") {
+      goalDays = goals.filter(
         (recordArr) => recordArr[0] === selectedGoal
       )[0][1];
     } else {
@@ -131,7 +112,7 @@ function App() {
       stickersCurrentMonth: stickersOnGoalDays,
       totalGoalDaysCurrentMonth: totalGoalDays,
     };
-  }, [state.goals, selectedGoal, selectedMonth ]);
+  }, [goals, selectedGoal, selectedMonth ]);
 
   const calculatePercentAchieved = useCallback(() => {
     let currentProgress = getCurrentGoalProgress(stickers);
@@ -149,12 +130,9 @@ function App() {
         <Header />
         <div className="main-wrapper">
           <GoalsContainer
-            goals={state.goals}
-            addNewGoal={addNewGoal}
+            goals={goals}
             selectedGoal={selectedGoal}
-            handleSelectedGoalChange={handleSelectedGoalChange}
             handleSelectedStickerChange={handleSelectedStickerChange}
-            handleGoalDeletion={handleGoalDeletion}
             hideOrShowGoalDuplicateModal={hideOrShowGoalDuplicateModal}
           />
           <Calendar

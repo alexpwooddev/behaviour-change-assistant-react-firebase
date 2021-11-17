@@ -1,12 +1,16 @@
 import React, { useState, useContext } from "react";
+import { useDispatch }  from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { Text, LanguageContext } from '../containers/Language';
+import { addGoal } from '../features/goals/goalsSlice';
 import "./GoalModal.css";
 import GeneralModal from "./GeneralModal";
 
 const GoalModal = (props) => {
   const [showCheckedDaysModal, toggleCheckedDaysModal] = useState(false);
+  const dispatch = useDispatch();
+
   const { dictionary } = useContext(LanguageContext);
   const dayToIndexMapper = {
     0: "monday",
@@ -56,7 +60,7 @@ const GoalModal = (props) => {
     setCheckedDays(newCheckedDays);
   };
 
-  const addGoal = (e) => {
+  const addNewGoal = (e) => {
     if (!checkedDays.includes(true)){
       hideOrShowCheckedDaysModal();
       console.log(e);
@@ -75,7 +79,7 @@ const GoalModal = (props) => {
 
     if (goalDuplicateCheck(newGoal)) return;
 
-    props.addNewGoal(newGoal);
+    dispatch(addGoal(newGoal));
     props.hideOrShowGoalModal();
   };
 
@@ -86,7 +90,7 @@ const GoalModal = (props) => {
           <h5 className="modal-title"><Text tid="goalModalTitle"/></h5>
         </div>
         <div className="modal-body">
-          <form className="goalForm" id="goalForm" onSubmit={addGoal}>
+          <form className="goalForm" id="goalForm" onSubmit={addNewGoal}>
             <fieldset>
               <div id="promise-container">
                 <p>
@@ -243,7 +247,6 @@ const GoalModal = (props) => {
 };
 
 GoalModal.propTypes = {
-  addNewGoal: PropTypes.func.isRequired,
   hideOrShowGoalModal: PropTypes.func.isRequired,
   hideOrShowGoalDuplicateModal: PropTypes.func.isRequired,
   goals: PropTypes.array.isRequired,
