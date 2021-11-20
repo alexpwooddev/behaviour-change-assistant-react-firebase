@@ -65,7 +65,7 @@ export const goalsSlice = createSlice({
         state.status = "succeeded";
         const newGoals = action.payload;
         state.goals = newGoals;
-        state.selectedGoal = newGoals[0];
+        state.selectedGoal = newGoals[0][0];
       })
       .addCase(addGoal.rejected, (state, action) => {
         state.status = "failed";

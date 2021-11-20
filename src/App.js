@@ -23,15 +23,10 @@ const defaultState = {
 }
 
 function App() {
-  const [state, dispatch] = useReducer(reducer, defaultState);
-
-  //not reading Goals or selectedGoals on initial load (hence commented out next line, but line 32 also errors)
-  //what's different from the same thing with stickers? coz that flows just fine.....
-  
-  // const selectedGoal = useSelector(state => state.goals.selectedGoal);
-  const selectedGoal = "meditate"
+  const [reducerState, dispatch] = useReducer(reducer, defaultState);
   const stickers = useSelector(state => state.stickers.stickers);
   const goals = useSelector(state => state.goals.goals);
+  const selectedGoal = useSelector(state => state.goals.selectedGoal);
   const selectedMonth = parseISO(useSelector(state => state.stickers.selectedMonth));
   const dispatchRedux = useDispatch();
 
@@ -69,6 +64,7 @@ function App() {
 
   const atLeastOneGoalExists = goals.length > 0;
 
+  console.log(selectedGoal);
   const selectedGoalRecord = goals.filter(
     (goal) => goal[0].toLowerCase() === selectedGoal.toLowerCase()
   );
@@ -147,14 +143,14 @@ function App() {
           />
           <StorageWarning />
           <Footer />
-          {state.showGoalDuplicateModal && (
+          {reducerState.showGoalDuplicateModal && (
             <GeneralModal
               title={dictionary.goalDuplicateModalTitle}
               message={dictionary.goalDuplicateModalTitle}
               hideOrShowModal={hideOrShowGoalDuplicateModal}
             />
           )}
-          {state.showNoGoalsModal && (
+          {reducerState.showNoGoalsModal && (
             <GeneralModal 
               title={dictionary.noGoalsModalTitle}
               message={dictionary.noGoalsModalMessage}

@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
+import { parseISO } from "date-fns";
 
 import {
   setSelectedSticker,
@@ -16,7 +17,7 @@ const GoalCard = (props) => {
   const { dictionary } = useContext(LanguageContext);
   const dispatch = useDispatch();
   const stickers = useSelector((state) => state.stickers.stickers);
-  const selectedMonth = useSelector((state) => state.stickers.selectedMonth);
+  const selectedMonth = parseISO(useSelector((state) => state.stickers.selectedMonth));
 
   const deleteGoal = async (e) => {
     e.stopPropagation();
