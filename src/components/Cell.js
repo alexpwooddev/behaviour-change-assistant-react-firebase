@@ -1,13 +1,15 @@
 import React, { useState, useContext } from "react";
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from "prop-types";
-import { isSameMonth } from "date-fns";
+import { isSameMonth, parseISO } from "date-fns";
 
 import { checkIfGoalAchievedOnThisClick } from "../utils/checkIfGoalAchievedOnThisClick.js";
-import { handleCellClick } from "../utils/handleCellClick.js";
 import { LanguageContext } from "../containers/Language";
 import Sticker from "./Sticker";
 import AchievementModal from "./AchievementModal";
 import GeneralModal from "./GeneralModal";
+import { createStickerRecord } from "../Factories/createStickerRecord.js";
+import { setStickers } from '../features/stickers/stickersSlice';
 import "./Cell.css";
 
 const Cell = (props) => {
@@ -17,27 +19,39 @@ const Cell = (props) => {
   const [showFutureErrorModal, toggleFutureErrorModal] = useState(false);
   const { dictionary } = useContext(LanguageContext);
 
+  const stickers = useSelector(state => state.stickers.stickers);
+  const selectedSticker = useSelector(state => state.stickers.selectedSticker);
+  const selectedMonth = parseISO(useSelector(state => state.stickers.selectedMonth));
+  const dispatchRedux = useDispatch();
+
   const date = props.day.getDate();
   const isCurrentMonth = isSameMonth(props.day, props.monthStart);
   const futureClass = props.isFutureDayThisMonth ? "future-cell" : "";
   let stickerRecord;
 
+  const modifyStickers = async (stickersArray) => {  
+    const noGoalsExist = props.selectedGoal === '' ? true : false;
+    if (noGoalsExist) {
+      props.hideOrShowNoGoalsModal();
+      return;
+    }
+    await dispatchRedux(setStickers(stickersArray));
+  };
+
   function getStickerRecord(stickers) {
     stickers.forEach((record) => {
       if (
-        record["year"] === props.selectedMonth.getFullYear() &&
-        record["month"] === props.selectedMonth.getMonth() &&
+        record["year"] === selectedMonth.getFullYear() &&
+        record["month"] === selectedMonth.getMonth() &&
         record["date"] === date &&
         isCurrentMonth &&
         record["goal"] === props.selectedGoal
       ) {
-        //aren't these state???? - and so shouldn't they be handled as such?
-        //each cell needs to know if it has a sticker, and which one...
         stickerRecord = record;
       }
     });
   }
-  getStickerRecord(props.stickers);
+  getStickerRecord(stickers);
 
   const hideOrShowFutureErrorModal = (e = undefined) => {
     if (e) {
@@ -79,6 +93,49 @@ const Cell = (props) => {
     }
   };
 
+  const handleCellClick = (e) => {
+    if (showAchievementModal || showFutureErrorModal) return;
+    
+    const targetedCell = e.target.closest("div");
+    const stickerAlreadyExists = targetedCell.childNodes.length > 1;
+    const onGoalDay = targetedCell.classList.contains("goalDay") ? true : false;
+    const isFutureDay = targetedCell.classList.contains('future-cell');
+
+    if (isFutureDay) {
+      hideOrShowFutureErrorModal();
+      return;
+    }
+
+    //remove existing stickers
+    if (stickerAlreadyExists) {
+      let newStickersArray = Array.from(stickers);
+      newStickersArray.splice(
+        newStickersArray.findIndex(
+          (record) => record["uuid"] === targetedCell.dataset.uuid
+        ),
+        1
+      );
+
+      modifyStickers(newStickersArray);
+    } else {
+      //add new sticker
+      let stickerRecordToAdd = createStickerRecord(
+        selectedMonth.getFullYear(),
+        selectedMonth.getMonth(),
+        parseInt(targetedCell.firstChild.textContent),
+        selectedSticker,
+        props.selectedGoal,
+        onGoalDay
+      );
+
+      let newStickersArray = Array.from(stickers);
+      newStickersArray.push(stickerRecordToAdd);
+      modifyStickers(newStickersArray);
+
+      handlePossibleAchievement(newStickersArray, props.cellClass);
+    }
+  };
+
   return (
     <div
       style={{ backgroundColor: props.backgroundColor }}
@@ -87,19 +144,7 @@ const Cell = (props) => {
       } ${props.cellClass} ${futureClass}`}
       key={props.day}
       onClick={(e) =>
-        handleCellClick(
-          e,
-          showAchievementModal,
-          showFutureErrorModal,
-          hideOrShowFutureErrorModal,
-          props.modifyStickers,
-          handlePossibleAchievement,
-          props.selectedMonth,
-          props.selectedSticker,
-          props.selectedGoal,
-          props.stickers,
-          props.cellClass
-        )
+        handleCellClick(e)
       }
       data-uuid={stickerRecord ? stickerRecord.uuid : ""}
     >
@@ -129,13 +174,9 @@ Cell.propTypes = {
   backgroundColor: PropTypes.string,
   day: PropTypes.instanceOf(Date).isRequired,
   monthStart: PropTypes.instanceOf(Date).isRequired,
-  selectedMonth: PropTypes.instanceOf(Date).isRequired,
   selectedGoal: PropTypes.string.isRequired,
-  selectedSticker: PropTypes.string.isRequired,
   formattedDate: PropTypes.string.isRequired,
-  stickers: PropTypes.array.isRequired,
   cellClass: PropTypes.string,
-  modifyStickers: PropTypes.func.isRequired,
   getCurrentGoalProgress: PropTypes.func.isRequired,
 };
 

@@ -1,5 +1,7 @@
 import React from "react";
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+import { parseISO } from "date-fns";
 import {
   format,
   startOfWeek,
@@ -13,8 +15,10 @@ import "./CellRows.css";
 import Cell from "./Cell";
 
 const CellRows = (props) => {
+  const selectedMonth = parseISO(useSelector(state => state.stickers.selectedMonth));
+
   const today = new Date();
-  const monthStart = startOfMonth(props.selectedMonth); //e.g. 1 Oct
+  const monthStart = startOfMonth(selectedMonth); //e.g. 1 Oct
   const monthEnd = endOfMonth(monthStart); // e.g. 31 Oct
   const startDate = startOfWeek(monthStart, { weekStartsOn: 1 }); //e.g. Mon 28 Sep
   const endDate = endOfWeek(monthEnd, { weekStartsOn: 1 }); //e.g. Sun 1 Nov
@@ -57,15 +61,12 @@ const CellRows = (props) => {
           backgroundColor={backgroundColor}
           day={day}
           monthStart={monthStart}
-          selectedMonth={props.selectedMonth}
           selectedGoal={props.selectedGoal}
-          selectedSticker={props.selectedSticker}
           formattedDate={formattedDate}
           key={day}
-          stickers={props.stickers}
           cellClass={cellClass}
-          modifyStickers={props.modifyStickers}
           getCurrentGoalProgress={props.getCurrentGoalProgress}
+          hideOrShowNoGoalsModal={props.hideOrShowNoGoalsModal}
         />
       );
       day = addDays(day, 1);
@@ -87,13 +88,10 @@ const CellRows = (props) => {
 };
 
 CellRows.propTypes = {
-  selectedMonth: PropTypes.instanceOf(Date).isRequired,
-  selectedSticker: PropTypes.string.isRequired,
-  stickers: PropTypes.array.isRequired,
   selectedGoal: PropTypes.string.isRequired,
   selectedGoalRecord: PropTypes.array.isRequired,
-  modifyStickers: PropTypes.func.isRequired,
   getCurrentGoalProgress: PropTypes.func.isRequired,
+  hideOrShowNoGoalsModal: PropTypes.func.isRequired,
 }
 
 export default CellRows;

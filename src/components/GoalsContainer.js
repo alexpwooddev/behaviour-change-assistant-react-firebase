@@ -12,8 +12,10 @@ import GeneralModal from "./GeneralModal";
 const GoalsContainer = (props) => {
   const [showGoalModal, toggleGoalModal] = useState(false);
   const [showGoalsLimitModal, toggleShowGoalsLimitModal] = useState(false);
-  const goals = props.goals;
+
   const { dictionary } = useContext(LanguageContext);
+  const goals = props.goals;
+  
 
   const hideOrShowGoalsLimitModal = () => {
     toggleShowGoalsLimitModal(!showGoalsLimitModal);
@@ -37,9 +39,6 @@ const GoalsContainer = (props) => {
             key={id}
             goal={goal}
             goals={props.goals}
-            stickers={props.stickers}
-            handleSelectedGoalChange={props.handleSelectedGoalChange}
-            handleGoalDeletion={props.handleGoalDeletion}
             selectedGoal={props.selectedGoal}
           />
         );
@@ -47,16 +46,13 @@ const GoalsContainer = (props) => {
       {props.selectedGoal && (
         <StickerSelector
           selectedGoal={props.selectedGoal}
-          stickers={props.stickers}
-          selectedMonth={props.selectedMonth}
           handleSelectedStickerChange={props.handleSelectedStickerChange}
-          selectedSticker={props.selectedSticker}
         />
       )}
       {showGoalModal && (
         <GoalModal
-          addNewGoal={props.addNewGoal}
           hideOrShowGoalModal={hideOrShowGoalModal}
+          hideOrShowGoalDuplicateModal={props.hideOrShowGoalDuplicateModal}
           goals={props.goals}
         />
       )}
@@ -72,14 +68,9 @@ const GoalsContainer = (props) => {
 
 GoalsContainer.propTypes = {
   goals: PropTypes.array.isRequired,
-  stickers: PropTypes.array.isRequired,
   selectedGoal: PropTypes.string.isRequired,
-  selectedSticker: PropTypes.string.isRequired,
-  selectedMonth: PropTypes.instanceOf(Date).isRequired,
-  addNewGoal: PropTypes.func.isRequired,
-  handleSelectedGoalChange: PropTypes.func.isRequired,
+  hideOrShowGoalDuplicateModal: PropTypes.func.isRequired,
   handleSelectedStickerChange: PropTypes.func.isRequired,
-  handleGoalDeletion: PropTypes.func.isRequired,
 }
 
 export default GoalsContainer;
