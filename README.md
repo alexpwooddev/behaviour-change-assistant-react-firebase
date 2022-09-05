@@ -10,5 +10,6 @@ Behaviour change tool created with React, Redux, Jest and Enzyme, and deployed o
 - Add various goals with target activity days
 - Mark completion with a variety of stickers
 - Track progress of each goal for a given month with the goal progress meter
+- Toggle betwen English or Spanish languages
 - View past months' stickers and goal completion
 - Receive encouraging notifications when you reach different milestones for each goal
